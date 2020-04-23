@@ -31,14 +31,15 @@ def personalPage():
 # 修改个人信息页面
 @app.route('/ModifyPersonalInfo', methods=['GET', 'POST'])
 def ModifyPersonalInfo():
+    msg=""
     if request.method == 'GET':
         return render_template('ModifyPersonalInfo.html', username=username)
     if request.method =='POST':
-        msg=""
         # username = request.form['username']
         address = request.form['address']
         phonenum = request.form['phonenum']
-        db = MySQLdb.connect("localhost", "root", "", "pandb", charset='utf8')
+        # 连接数据库，默认数据库用户名root，密码空
+        db = MySQLdb.connect("localhost", "root", "", "appDB", charset='utf8')
         cursor = db.cursor()
         try:
             cursor.execute("use appDB")
@@ -54,7 +55,41 @@ def ModifyPersonalInfo():
             print("--->", e)
             print("修改个人信息失败")
             msg="fail"
-        return render_template('ModifyPersonalInfo.html', messages=msg)
+        return render_template('ModifyPersonalInfo.html', messages=msg, username=username)
+
+# 修改个人信息页面
+@app.route('/ModifyPassword', methods=['GET', 'POST'])
+def ModifyPassword():
+    msg=""
+    if request.method == 'GET':
+        return render_template('ModifyPassword.html', username=username)
+    if request.method =='POST':
+        # username = request.form['username']
+        psw1 = request.form['psw1']
+        psw2 = request.form['psw2']
+        # 两次输入密码是否相同
+        if psw1 == psw2:
+            # 连接数据库，默认数据库用户名root，密码空
+            db = MySQLdb.connect("localhost", "root", "", "appDB", charset='utf8')
+            cursor = db.cursor()
+            try:
+                cursor.execute("use appDB")
+            except:
+                print("Error: unable to use database!")
+            sql = "Update {} SET password = '{}' where username = '{}'".format(userRole, psw1, username)
+            try:
+                cursor.execute(sql)
+                db.commit()
+                # print("修改密码成功")
+                msg="done"
+            except ValueError as e:
+                print("--->", e)
+                print("修改密码失败")
+                msg="fail"
+            return render_template('ModifyPassword.html', messages=msg, username=username)
+        else:
+            msg="not equal"
+            return render_template('ModifyPassword.html', messages=msg, username=username)
 
 
 if __name__ == '__main__':
