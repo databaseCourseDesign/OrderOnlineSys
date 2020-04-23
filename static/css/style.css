@@ -817,8 +817,27 @@ form label {
 }
 #gtco-features .feature-center h3 {
   font-weight: 400;
+  font-size: 20px;
   color: #fff;
 }
+#gtco-features .feature-center a h3 {
+  font-weight: 400;
+  font-size: 20px;
+  color: #fff;
+}
+#gtco-features .feature-center a {
+  text-decoration: none;
+  font-weight: 400;
+  font-size: 20px;
+  color: #fff;
+}
+#gtco-features .feature-center a:hover {
+  text-decoration: none;
+  font-weight: 400;
+  font-size: 20px;
+  color: #fff;
+}
+
 #gtco-features .feature-center p {
   color: rgba(255, 255, 255, 0.7);
 }
@@ -868,7 +887,8 @@ form label {
 .feature-center h3 {
   font-size: 22px;
   margin-bottom: 20px;
-  color: #FBB448;
+  /* color: #FBB448; */
+  color: white;
   position: relative;
 }
 
