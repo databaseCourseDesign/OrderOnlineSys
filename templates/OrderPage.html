@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>个人中心</title>
-    <link rel="stylesheet" href="static/css/personal.css">
+	<title>个人中心</title>
+	<link rel="stylesheet" href="static/css/OrderPage.css">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
     <script src="static/js/modernizr-2.6.2.min.js"></script>
 
@@ -25,6 +25,7 @@
 	<!-- Owl Carousel  -->
 	<link rel="stylesheet" href="{{ url_for('static', filename='css/owl.carousel.min.css') }}">
 	<link rel="stylesheet" href="{{ url_for('static', filename='css/owl.theme.default.min.css') }}">
+	
 
 </head>
 <body>
@@ -33,7 +34,7 @@
         <div class="gtco-container">
             <div class="row">
                 <div class="col-sm-4 col-xs-12">
-                    <div id="gtco-logo"><a href="index.html">个人中心 <em>.</em></a></div>
+                    <div id="gtco-logo"><a href="index.html">我的订单 <em>.</em></a></div>
                 </div>
                 <div class="col-xs-8 text-right menu-1">
                     <ul>
@@ -44,7 +45,7 @@
 								<li><a href="ModifyPassword">修改密码</a></li>
                                 <li><a href="OrderPage">我的订单</a></li>
                                 <li><a href="#">我的评价</a></li>
-                                <li><a href="#">发表评价</a></li>
+                                <li><a href="#">待评价</a></li>
                             </ul>
 						</li>
 						<li><a href="index">返回首页</a></li>
@@ -55,56 +56,68 @@
 	</nav>  
 	</div>
 
-	<div id="gtco-features">
-	<div class="gtco-container">
-	<div class="row" style="margin-top: 70px; background-color: #FBB448;">
-		<div class="col-md-4 col-sm-6" >
-			<div class="feature-center animate-box" data-animate-effect="fadeIn">
-				<span class="icon">
-					<i class="ti-settings"></i>
-				</span>
-				<a href="ModifyPersonalInfo" style="text-decoration: none;"><h3>修改个人信息</h3></a>
-				<p>Modify personal information</p>
+	<div class="gtco-section">
+		<div class="gtco-container">
+			<!-- 文字 -->
+			<div class="row">
+				<div class="col-md-8 col-md-offset-2 text-center gtco-heading">
+					<p style="font-size: 40px; color: #FBB448; font-family: Helvetica;">我的订单</p>
+					<!-- <p>Dignissimos asperiores vitae velit veniam totam fuga molestias accusamus alias autem provident. Odit ab aliquam dolor eius.</p> -->
+				</div>
 			</div>
-		</div>
-		<div class="col-md-4 col-sm-6">
-			<div class="feature-center animate-box" data-animate-effect="fadeIn">
-				<span class="icon">
-					<i class="ti-lock"></i>
-				</span>
-				<a href="ModifyPassword" style="text-decoration: none;"><h3>修改密码</h3></a>
-				<p>Modify my password</p>
+			<!-- TODO: 此处还想加一个按照时间顺序或价格排列 -->
+			<div class="selectcondition">
+				<form action="{{ url_for('OrderPage') }}" method="post">
+					<input type="submit" name="action" value="按时间排序" style="color: white; font-size: 16px; outline:none; border:0px; background-color: #FBB448; border-radius: 10px;">
+					<input type="submit" name="action" value="按价格排序" style="color: white; font-size: 16px; outline:none; border:0px; background-color: #FBB448; border-radius: 10px;">
+					<span class="badge" style="float: right;">{{ notFinishedNum }}</span><input type="submit" name="action" value="未完成订单" style="background-color: transparent; color: #FBB448; float: right; font-size: 16px; outline:none; border:0px;">
+				</form>
 			</div>
-		</div>
-		<div class="col-md-4 col-sm-6">
-			<div class="feature-center animate-box" data-animate-effect="fadeIn">
-				<span class="icon">
-					<i class="ti-receipt"></i>
-				</span>
-				<a href="OrderPage" style="text-decoration: none;"><h3>我的订单</h3></a>
-				<p>My orders</p>
-			</div>
-		</div>
-		<div class="col-md-4 col-sm-6">
-			<div class="feature-center animate-box" data-animate-effect="fadeIn">
-				<span class="icon">
-					<i class="ti-comment-alt"></i>
-				</span>
-				<h3>我的评价</h3>
-				<p>My review</p>
-			</div>
-		</div>
-		<div class="col-md-4 col-sm-6">
-			<div class="feature-center animate-box" data-animate-effect="fadeIn">
-				<span class="icon">
-					<i class="ti-pencil-alt"></i>
-				</span>
-				<h3>发表评价</h3>
-				<p>Post a review</p>
+			<br/><br/>
+			<!-- 展示我的全部订单 -->
+			<div class="row">
+				<div class="col-lg-12 col-md-4 col-sm-6">
+					{% if messages == "done" %}
+						{% for item in result %}
+							<a href={{item[8]}} class="fh5co-card-item image-popup">
+								<figure class="col-lg-4" style="float: left;">
+									<div class="overlay"><i class="ti-plus"></i></div>
+									<img src={{item[8]}} alt="Image" class="img-responsive">
+								</figure>
+								<div class="fh5co-text">
+									<h2 style="margin-top: 40px;"> 菜品：{{ item[2] }} </h2>
+									<p>订单号：{{ item[0] }}</p>
+									<p>交易时间：{{ item[9] }}</p>
+									<!-- mode=0：外卖，mode=1：堂食 -->
+									{% if item[4] == 1 %}
+										<p>就餐方式：堂食</p>
+										<p>餐厅地址：{{ item[6] }}</p>
+										<p>取餐时间：{{ item[5] }}</p>
+									{% elif item[4] == 0 %}
+										<p>就餐方式：外卖</p>
+										<p>配送地址：{{ item[6] }}</p>
+										<p>送达时间：{{ item[5] }}</p>
+									{% endif %}
+									{% if item[7] == 1 %}
+										<p>订单状态：已完成</p>
+									{% elif item[7] == 0 %}
+										<p>订单状态：<span style="color: red;">未完成</span></p>
+									{% endif %}
+									<p>订单总价格：<span class="price cursive-font">￥{{ item[13]}}</span></p>
+								</div>
+							</a>
+						{% endfor %}
+					
+					{% elif messages == "none" %}
+						<p style="text-align: center;"><strong style="font-size: 18px;">您还没有订单哦！</strong></p>
+					{% endif %}
+					
+				</div>				
+
 			</div>
 		</div>
 	</div>
-	</div>
+	<div>
 	</div>
 
 
