@@ -34,7 +34,7 @@
         <div class="gtco-container">
             <div class="row">
                 <div class="col-sm-4 col-xs-12">
-                    <div id="gtco-logo"><a href="index.html">我的订单 <em>.</em></a></div>
+                    <div id="gtco-logo"><a href="index.html">写评价 <em>.</em></a></div>
                 </div>
                 <div class="col-xs-8 text-right menu-1">
                     <ul>
@@ -45,7 +45,7 @@
 								<li><a href="ModifyPassword">修改密码</a></li>
                                 <li><a href="OrderPage">我的订单</a></li>
                                 <li><a href="MyComments">我的评价</a></li>
-                                <li><a href="#">待评价</a></li>
+                                <li><a href="WriteComments">写评价</a></li>
                             </ul>
 						</li>
 						<li><a href="index">返回首页</a></li>
@@ -61,14 +61,14 @@
 			<!-- 文字 -->
 			<div class="row">
 				<div class="col-md-8 col-md-offset-2 text-center gtco-heading">
-					<p style="font-size: 40px; color: #FBB448; font-family: Helvetica;">我的订单</p>
+					<p style="font-size: 40px; color: #FBB448; font-family: Helvetica;">写评价</p>
 					<!-- <p>Dignissimos asperiores vitae velit veniam totam fuga molestias accusamus alias autem provident. Odit ab aliquam dolor eius.</p> -->
 				</div>
 			</div>
 			<!-- TODO: 此处还想加一个按照时间顺序或价格排列 -->
 			<div class="selectcondition">
 				<form action="{{ url_for('OrderPage') }}" method="post">
-					<input type="submit" name="action" value="按时间排序" style="color: white; font-size: 16px; outline:none; border:0px; background-color: #FBB448; border-radius: 10px;">
+					<input type="submit" name="action" value="按交易时间排序" style="color: white; font-size: 16px; outline:none; border:0px; background-color: #FBB448; border-radius: 10px;">
 					<input type="submit" name="action" value="按价格排序" style="color: white; font-size: 16px; outline:none; border:0px; background-color: #FBB448; border-radius: 10px;">
 					<span class="badge" style="float: right;">{{ notFinishedNum }}</span><input type="submit" name="action" value="未完成订单" style="background-color: transparent; color: #FBB448; float: right; font-size: 16px; outline:none; border:0px;">
 				</form>
@@ -79,9 +79,9 @@
 				<div class="col-lg-12 col-md-4 col-sm-6">
 					{% if messages == "done" %}
 						{% for item in result %}
-							<a href={{item[8]}} class="fh5co-card-item image-popup">
+							<div class="fh5co-card-item">
 								<figure class="col-lg-4" style="float: left;">
-									<div class="overlay"><i class="ti-plus"></i></div>
+									<!-- <div class="overlay"><i class="ti-plus"></i></div> -->
 									<img src={{item[8]}} alt="Image" class="img-responsive">
 								</figure>
 								<div class="fh5co-text">
@@ -103,9 +103,17 @@
 									{% elif item[7] == 0 %}
 										<p>订单状态：<span style="color: red;">未完成</span></p>
 									{% endif %}
-									<p>订单总价格：<span class="price cursive-font">￥{{ item[13]}}</span></p>
+                                    <p>订单总价格：<span class="price cursive-font">￥{{ item[13]}}</span></p>
+                                    <form>
+                                        {% if item[7] == 1 %}
+                                            <input type="submit" name="action" value="写评论" style="margin: 15px; font-size: 16px; float: right; color: #FBB448; background-color: white; font-size: 16px; outline:none; border: 1px solid #FBB448; border-radius: 10px;">
+                                        {% elif item[7] == 0 %}
+                                            <input type="submit" name="action" value="确认收货" style="margin: 15px; font-size: 16px; float: right; color: #FBB448; background-color: white; font-size: 16px; outline:none; border: 1px solid #FBB448; border-radius: 10px;">
+                                        {% endif %}
+                                    </form>
+                                    <br/>
 								</div>
-							</a>
+							</div>
 						{% endfor %}
 					
 					{% elif messages == "none" %}

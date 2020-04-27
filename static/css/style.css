@@ -1796,23 +1796,6 @@ form label {
   position: relative;
   z-index: 22;
 }
-.fh5co-card-item .fh5co-text:before {
-  position: absolute;
-  top: -40px;
-  right: 0;
-  left: 0;
-  width: 103%;
-  margin-left: -4px;
-  height: 50px;
-  z-index: -1;
-  content: "";
-  background: #fff;
-  -webkit-transform: rotate(4deg);
-  -moz-transform: rotate(4deg);
-  -ms-transform: rotate(4deg);
-  -o-transform: rotate(4deg);
-  transform: rotate(4deg);
-}
 .fh5co-card-item .fh5co-text h2, .fh5co-card-item .fh5co-text span {
   text-decoration: none !important;
 }
@@ -1980,6 +1963,21 @@ form label {
   .fh5co-faq-list li h2 {
     font-size: 26px;
   }
+}
+
+.selectcondition {
+  float: left;
+}
+.asdf {
+  margin: 15px; 
+  font-size: 16px; 
+  float: right; 
+  color: #FBB448; 
+  background-color: white; 
+  font-size: 16px; 
+  outline:none; 
+  border: 1px solid #FBB448; 
+  border-radius: 10px;
 }
 
 /*# sourceMappingURL=style.css.map */

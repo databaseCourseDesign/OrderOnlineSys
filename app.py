@@ -190,6 +190,206 @@ def OrderPage():
     else:
         return render_template('OrderPage.html', username=username, messages=msg)
 
+@app.route('/MyComments', methods=['GET', 'POST'])
+def MyCommentsPage():
+    msg = ""
+    global notFinishedNum
+    if request.method == 'GET':
+        msg = ""
+        # 连接数据库，默认数据库用户名root，密码空
+        db = MySQLdb.connect("localhost", "root", "", "appDB", charset='utf8')
+        cursor = db.cursor()
+        try:
+            cursor.execute("use appDB")
+        except:
+            print("Error: unable to use database!")
+        # 查询未完成订单数量
+        presql = "SELECT * FROM ORDER_COMMENT WHERE username = '%s' AND isFinished = 0 OR text is null" % username
+        cursor.execute(presql)
+        res1 = cursor.fetchall()
+        notFinishedNum = len(res1)
+        # 查询其他信息
+        sql = "SELECT * FROM ORDER_COMMENT WHERE username = '%s' and isFinished = 1 and text is not null" % username
+        cursor.execute(sql)
+        res = cursor.fetchall()
+        # print(res)
+        # print(len(res))
+        if len(res):
+            msg = "done"
+            print(msg)
+            return render_template('MyComments.html', username=username, result = res, messages=msg, notFinishedNum=notFinishedNum)
+        else:
+            print("NULL")
+            msg = "none"
+            return render_template('MyComments.html', username=username, messages=msg)
+    elif request.form["action"] == "按时间排序":
+        db = MySQLdb.connect("localhost", "root", "", "appDB", charset='utf8')
+        cursor = db.cursor()
+        try:
+            cursor.execute("use appDB")
+        except:
+            print("Error: unable to use database!")
+        
+        sql = "SELECT * FROM ORDER_COMMENT WHERE username = '%s' AND isFinished = 1 AND text is not null Order BY tansactiontime DESC" % username
+        cursor.execute(sql)
+        res = cursor.fetchall()
+        print(res)
+        print(len(res))
+        if len(res):
+            msg = "done"
+            print(msg)
+            return render_template('MyComments.html', username=username, result = res, messages=msg, notFinishedNum=notFinishedNum)
+        else:
+            print("NULL")
+            msg = "none"
+        return render_template('MyComments.html', username=username, messages=msg)
+    elif request.form["action"] == "按价格排序":
+        db = MySQLdb.connect("localhost", "root", "", "appDB", charset='utf8')
+        cursor = db.cursor()
+        try:
+            cursor.execute("use appDB")
+        except:
+            print("Error: unable to use database!")
+        
+        sql = "SELECT * FROM ORDER_COMMENT WHERE username = '%s' AND isFinished = 1 AND text is not null Order BY cost ASC" % username
+        cursor.execute(sql)
+        res = cursor.fetchall()
+        print(res)
+        print(len(res))
+        if len(res):
+            msg = "done"
+            print(msg)
+            return render_template('MyComments.html', username=username, result = res, messages=msg, notFinishedNum=notFinishedNum)
+        else:
+            print("NULL")
+            msg = "none"
+        return render_template('MyComments.html', username=username, messages=msg, notFinishedNum=notFinishedNum)
+    elif request.form["action"] == "未完成订单":
+        db = MySQLdb.connect("localhost", "root", "", "appDB", charset='utf8')
+        cursor = db.cursor()
+        try:
+            cursor.execute("use appDB")
+        except:
+            print("Error: unable to use database!")
+        
+        sql = "SELECT * FROM ORDER_COMMENT WHERE username = '%s' AND isFinished = 0 " % username
+        cursor.execute(sql)
+        res = cursor.fetchall()
+        print(res)
+        print(len(res))
+        if len(res):
+            msg = "done"
+            print(msg)
+            return render_template('MyComments.html', username=username, result = res, messages=msg, notFinishedNum=len(res))
+        else:
+            print("NULL")
+            msg = "none"
+        return render_template('MyComments.html', username=username, messages=msg, notFinishedNum=notFinishedNum)
+    elif request.form["action"] == "确认收货":
+        msg = "Confirm"
+        return render_template('MyComments.html', username=username, messages=msg)
+    else:
+        return render_template('MyComments.html', username=username, messages=msg)
+
+@app.route('/WriteComments', methods=['GET', 'POST'])
+def WriteCommentsPage():
+    if request.method == 'GET':
+        msg = ""
+        # 连接数据库，默认数据库用户名root，密码空
+        db = MySQLdb.connect("localhost", "root", "", "appDB", charset='utf8')
+        cursor = db.cursor()
+        try:
+            cursor.execute("use appDB")
+        except:
+            print("Error: unable to use database!")
+        # 查询未完成订单数量
+        presql = "SELECT * FROM ORDER_COMMENT WHERE username = '%s' AND isFinished = 0" % username
+        cursor.execute(presql)
+        res1 = cursor.fetchall()
+        notFinishedNum = len(res1)
+        # 查询其他信息
+        sql = "SELECT * FROM ORDER_COMMENT WHERE username = '%s'" % username
+        cursor.execute(sql)
+        res = cursor.fetchall()
+        # print(res)
+        # print(len(res))
+        if len(res):
+            msg = "done"
+            print(msg)
+            return render_template('WriteComments.html', username=username, result = res, messages=msg, notFinishedNum=notFinishedNum)
+        else:
+            print("NULL")
+            msg = "none"
+            return render_template('WriteComments.html', username=username, messages=msg)
+    elif request.form["action"] == "按时间排序":
+        db = MySQLdb.connect("localhost", "root", "", "appDB", charset='utf8')
+        cursor = db.cursor()
+        try:
+            cursor.execute("use appDB")
+        except:
+            print("Error: unable to use database!")
+        
+        sql = "SELECT * FROM ORDER_COMMENT WHERE username = '%s' Order BY tansactiontime DESC" % username
+        cursor.execute(sql)
+        res = cursor.fetchall()
+        print(res)
+        print(len(res))
+        if len(res):
+            msg = "done"
+            print(msg)
+            return render_template('WriteComments.html', username=username, result = res, messages=msg, notFinishedNum=notFinishedNum)
+        else:
+            print("NULL")
+            msg = "none"
+        return render_template('WriteComments.html', username=username, messages=msg)
+    elif request.form["action"] == "按价格排序":
+        db = MySQLdb.connect("localhost", "root", "", "appDB", charset='utf8')
+        cursor = db.cursor()
+        try:
+            cursor.execute("use appDB")
+        except:
+            print("Error: unable to use database!")
+        
+        sql = "SELECT * FROM ORDER_COMMENT WHERE username = '%s' Order BY cost ASC" % username
+        cursor.execute(sql)
+        res = cursor.fetchall()
+        print(res)
+        print(len(res))
+        if len(res):
+            msg = "done"
+            print(msg)
+            return render_template('WriteComments.html', username=username, result = res, messages=msg, notFinishedNum=notFinishedNum)
+        else:
+            print("NULL")
+            msg = "none"
+        return render_template('WriteComments.html', username=username, messages=msg, notFinishedNum=notFinishedNum)
+    elif request.form["action"] == "未完成订单":
+        db = MySQLdb.connect("localhost", "root", "", "appDB", charset='utf8')
+        cursor = db.cursor()
+        try:
+            cursor.execute("use appDB")
+        except:
+            print("Error: unable to use database!")
+        
+        sql = "SELECT * FROM ORDER_COMMENT WHERE username = '%s' AND isFinished = 0 " % username
+        cursor.execute(sql)
+        res = cursor.fetchall()
+        print(res)
+        print(len(res))
+        if len(res):
+            msg = "done"
+            print(msg)
+            return render_template('WriteComments.html', username=username, result = res, messages=msg, notFinishedNum=len(res))
+        else:
+            print("NULL")
+            msg = "none"
+        return render_template('WriteComments.html', username=username, messages=msg, notFinishedNum=notFinishedNum)
+    elif request.form["action"] == "确认收货":
+        msg = "Confirm"
+        return render_template('WriteComments.html', username=username, messages=msg)
+
+    else:
+        return render_template('WriteComments.html', username=username, messages=msg)
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0',port='9090')
