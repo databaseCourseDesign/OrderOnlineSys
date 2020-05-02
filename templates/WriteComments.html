@@ -103,8 +103,9 @@
 									{% elif item[7] == 0 %}
 										<p>订单状态：<span style="color: red;">未完成</span></p>
 									{% endif %}
-                                    <p>订单总价格：<span class="price cursive-font">￥{{ item[13]}}</span></p>
-                                    <form>
+                                    <p>订单总价格：<span class="price cursive-font">￥{{ item[13] }}</span></p>
+                                    <form action="{{ url_for('CommentFormPage') }}" method="post">
+										<input name="orderID" value={{ item[0] }} style="display: none;">
                                         {% if item[7] == 1 %}
                                             <input type="submit" name="action" value="写评论" style="margin: 15px; font-size: 16px; float: right; color: #FBB448; background-color: white; font-size: 16px; outline:none; border: 1px solid #FBB448; border-radius: 10px;">
                                         {% elif item[7] == 0 %}

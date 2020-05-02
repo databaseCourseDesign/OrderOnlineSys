@@ -79,7 +79,7 @@
 				<div class="col-lg-12 col-md-4 col-sm-6">
 					{% if messages == "done" %}
 						{% for item in result %}
-							<a href={{item[8]}} class="fh5co-card-item image-popup">
+							<div class="fh5co-card-item">
 								<figure class="col-lg-4" style="float: left;">
 									<div class="overlay"><i class="ti-plus"></i></div>
 									<img src={{item[8]}} alt="Image" class="img-responsive">
@@ -104,10 +104,25 @@
 										<p>订单状态：<span style="color: red;">未完成</span></p>
 									{% endif %}
 									<p>订单总价格：<span class="price cursive-font">￥{{ item[13]}}</span></p>
+									<form action="{{ url_for('OrderPage') }}" method="post">
+										<input name="orderID" value={{ item[0] }} style="display: none;">
+										{% if item[7] == 0 %}
+                                            <input type="submit" name="action" value="确认收货" style="margin: 15px; font-size: 16px; float: right; color: #FBB448; background-color: white; font-size: 16px; outline:none; border: 1px solid #FBB448; border-radius: 10px;">
+                                        {% endif %}
+									</form>
+                                    <br/>
 								</div>
-							</a>
+							</div>
 						{% endfor %}
+					<!-- TODO -->
+					{% elif messages == "UpdateSucceed" %}
+					<div class="alert alert-success" role="alert">确认收货成功！3秒后自动跳转</div>
 					
+					<script language="javascript" type="text/javascript"> 
+						// 以下方式定时跳转
+						setTimeout("javascript:location.href='OrderPage'", 3000); 
+					</script>
+
 					{% elif messages == "none" %}
 						<!-- <p style="text-align: center;"><strong style="font-size: 18px;">您还没有订单哦！</strong></p> -->
 						<div class="alert alert-danger" role="alert">您还没有订单哦！</div>
