@@ -16,13 +16,9 @@ notFinishedNum = 0
 
 @app.route('/')
 @app.route('/index')
+# 首页进行登录，可选择进入注册
 def indexpage():
 	return render_template('index.html')
-
-# 登录页面
-@app.route('/login')
-def loginPage():
-	return render_template('login.html')
 
 # 个人中心页面
 @app.route('/personal')
@@ -422,4 +418,4 @@ def CommentFormPage():
         return render_template('CommentForm.html', username=username, orderID=orderID, messages=msg)
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0',port='9090')
+    app.run(host='localhost', port='9090')
