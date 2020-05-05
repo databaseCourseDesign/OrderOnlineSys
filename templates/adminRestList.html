@@ -1,13 +1,13 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 	<meta charset="utf-8">
-    <title>首页</title>
+    <title>管理员界面</title>
     <!-- <link rel="stylesheet" href="static/css/test.css" type="text/css"> -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/test.css') }}">
     <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700" rel="stylesheet">
 	<link href="https://fonts.googleapis.com/css?family=Kaushan+Script" rel="stylesheet">
-	
+
 	<!-- Animate.css -->
 	<link rel="stylesheet" href="{{ url_for('static', filename='css/animate.css') }}">
 	<!-- Icomoon Icon Fonts-->
@@ -33,77 +33,33 @@
 </head>
 <body>
 	<div class="gtco-loader"></div>
-	
+
 	<div id="page">
 
-	
+
 	<!-- <div class="page-inner"> -->
 	<nav class="gtco-nav" role="navigation">
 		<div class="gtco-container">
-			
+
 			<div class="row">
 				<div class="col-sm-4 col-xs-12">
-					<div id="gtco-logo"><a href="index">首页 <em>.</em></a></div>
+					<div id="gtco-logo">商家列表</div>
 				</div>
 				<div class="col-xs-8 text-right menu-1">
 					<ul>
-						<li><a href="personal">个人中心</a></li>
-						<li class="btn-cta"><a href="logIn"><span>登录</span></a></li>
-						<li class="btn-cta"><a href="register"><span>注册</span></a></li>
-					</ul>	
+						<li><a href="index">返回首页</a></li>
+<!--						<li class="btn-cta"><a href="logIn"><span>登录</span></a></li>-->
+					</ul>
 				</div>
 			</div>
-			
+
 		</div>
 	</nav>
 
 	<header id="gtco-header" class="gtco-cover gtco-cover-md" role="banner" style="background-image: url('static/images/img_bg_1.jpg')" data-stellar-background-ratio="0.5">
 		<div class="overlay"></div>
-		<div class="gtco-container">
-			<div class="row">
-				<div class="col-md-12 col-md-offset-0 text-left">
-
-
-					<div class="row row-mt-15em">
-						<div class="col-md-12 mt-text animate-box" data-animate-effect="fadeInUp">
-							<h1 class="cursive-font">在这里每天发现新美食！</h1>
-						</div>
-
-					</div>
-
-				</div>
-			</div>
-		</div>
 	</header>
 
-
-	<footer id="gtco-footer" role="contentinfo" style="background-image: url(static/images/img_bg_1.jpg)" data-stellar-background-ratio="0.5">
-		<div class="overlay"></div>
-		<div class="gtco-container">
-			<div class="row row-pb-md">
-
-				<div class="col-md-12 text-center">
-					<div class="gtco-widget">
-						<h3>社区分享</h3>
-						<ul class="gtco-social-icons">
-							<li><a href="#"><i class="icon-twitter"></i></a></li>
-							<li><a href="#"><i class="icon-facebook"></i></a></li>
-							<li><a href="#"><i class="icon-linkedin"></i></a></li>
-							<li><a href="#"><i class="icon-dribbble"></i></a></li>
-						</ul>
-					</div>
-				</div>
-
-				<div class="col-md-12 text-center copyright">
-					<p><big class="block">&copy; 2020 数据库课程设计 天津大学.</big>
-				</div>
-
-			</div>
-
-
-
-		</div>
-	</footer>
 
 	</div>
 
@@ -130,7 +86,7 @@
 	<!-- Magnific Popup -->
 	<script src="static/js/jquery.magnific-popup.min.js"></script>
 	<script src="static/js/magnific-popup-options.js"></script>
-	
+
 	<script src="static/js/moment.min.js"></script>
 	<script src="static/js/bootstrap-datetimepicker.min.js"></script>
 
