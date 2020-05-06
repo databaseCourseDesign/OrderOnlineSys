@@ -67,7 +67,7 @@
 			</div>
 			<!-- TODO: 此处还想加一个按照时间顺序或价格排列 -->
 			<div class="selectcondition">
-				<form action="{{ url_for('OrderPage') }}" method="post">
+				<form action="{{ url_for('WriteCommentsPage') }}" method="post">
 					<input type="submit" name="action" value="按交易时间排序" style="color: white; font-size: 16px; outline:none; border:0px; background-color: #FBB448; border-radius: 10px;">
 					<input type="submit" name="action" value="按价格排序" style="color: white; font-size: 16px; outline:none; border:0px; background-color: #FBB448; border-radius: 10px;">
 					<span class="badge" style="float: right;">{{ notFinishedNum }}</span><input type="submit" name="action" value="未完成订单" style="background-color: transparent; color: #FBB448; float: right; font-size: 16px; outline:none; border:0px;">
@@ -78,6 +78,7 @@
 			<div class="row">
 				<div class="col-lg-12 col-md-4 col-sm-6">
 					{% if messages == "done" %}
+					<p>xin</p>
 						{% for item in result %}
 							<div class="fh5co-card-item">
 								<figure class="col-lg-4" style="float: left;">
@@ -108,8 +109,6 @@
 										<input name="orderID" value={{ item[0] }} style="display: none;">
                                         {% if item[7] == 1 %}
                                             <input type="submit" name="action" value="写评论" style="margin: 15px; font-size: 16px; float: right; color: #FBB448; background-color: white; font-size: 16px; outline:none; border: 1px solid #FBB448; border-radius: 10px;">
-                                        {% elif item[7] == 0 %}
-                                            <input type="submit" name="action" value="确认收货" style="margin: 15px; font-size: 16px; float: right; color: #FBB448; background-color: white; font-size: 16px; outline:none; border: 1px solid #FBB448; border-radius: 10px;">
                                         {% endif %}
                                     </form>
                                     <br/>

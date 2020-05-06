@@ -306,8 +306,8 @@ def MyCommentsPage():
 
 @app.route('/WriteComments', methods=['GET', 'POST'])
 def WriteCommentsPage():
+    msg=""
     if request.method == 'GET':
-        msg = ""
         # 连接数据库，默认数据库用户名root，密码空
         db = MySQLdb.connect("localhost", "root", "", "appDB", charset='utf8')
         cursor = db.cursor()
@@ -321,7 +321,7 @@ def WriteCommentsPage():
         res1 = cursor.fetchall()
         notFinishedNum = len(res1)
         # 查询其他信息
-        sql = "SELECT * FROM ORDER_COMMENT WHERE username = '%s'" % username
+        sql = "SELECT * FROM ORDER_COMMENT WHERE username = '%s' AND isFinished = 1" % username
         cursor.execute(sql)
         res = cursor.fetchall()
         # print(res)
@@ -335,6 +335,7 @@ def WriteCommentsPage():
             msg = "none"
             return render_template('WriteComments.html', username=username, messages=msg)
     elif request.form["action"] == "按时间排序":
+        # TODO: 排序之后显示的是空的，不显示的问题没有解决
         db = MySQLdb.connect("localhost", "root", "", "appDB", charset='utf8')
         cursor = db.cursor()
         try:
@@ -342,7 +343,7 @@ def WriteCommentsPage():
         except:
             print("Error: unable to use database!")
         
-        sql = "SELECT * FROM ORDER_COMMENT WHERE username = '%s' Order BY tansactiontime DESC" % username
+        sql = "SELECT * FROM ORDER_COMMENT WHERE username = '%s' AND isFinished = 1 Order BY tansactiontime DESC" % username
         cursor.execute(sql)
         res = cursor.fetchall()
         print(res)
