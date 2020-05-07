@@ -217,6 +217,40 @@ def adminRestListPage():
             print("NULL")
             msg = "none"
             return render_template('adminRestList.html', username=username, messages=msg)
+    elif request.form["action"] == "移除":
+        RESTName = request.form.get('RESTName')
+        # 连接数据库，默认数据库用户名root，密码空
+        db = MySQLdb.connect("localhost", "root", "", "appDB", charset='utf8')
+        cursor = db.cursor()
+        try:
+            cursor.execute("use appDB")
+        except:
+            print("Error: unable to use database!")
+        # TODO: 点击移除后暂时移除，能正确显示，但数据库里没有删掉
+        # 删除dishes的
+        sql1 = "DELETE FROM DISHES WHERE restaurant = '{}';".format(RESTName)
+        cursor.execute(sql1)
+        print(sql1)
+        print("从菜品表删除")
+        # 删除订单表里的
+        sql2 = "DELETE FROM ORDER_COMMENT WHERE restaurant = '{}';".format(RESTName)
+        cursor.execute(sql2)
+        print("从ORDER_COMMENT删除")
+        print(sql2)
+        # 删除shoppingCart的
+        sql3 = "DELETE FROM shoppingCart WHERE restaurant = '{}';".format(RESTName)
+        cursor.execute(sql3)
+        print("从shoppingCart删除")
+        print(sql3)
+        # 删除restaurant的
+        sql4 = "DELETE FROM RESTAURANT WHERE username = '{}';".format(RESTName)
+        cursor.execute(sql4)
+        print(sql4)
+        print("从商家表删除")
+        msg = "delete"
+        print(msg)
+
+        return render_template('adminRestList.html', username=username, messages=msg)
 
 
 # 管理员查看评论列表
@@ -709,7 +743,7 @@ def CommentFormPage():
             print("用户评论失败")
             msg = "fail"
         return render_template('CommentForm.html', messages = msg, username=username)
-    
+
 
 
 
