@@ -38,7 +38,7 @@ def registerPage():
         print(userRole)
         print(username)
         # 连接数据库，默认数据库用户名root，密码空
-        db = MySQLdb.connect("localhost", "root", "whj123", "appDB", charset='utf8')
+        db = MySQLdb.connect("localhost", "root", "", "appDB", charset='utf8')
 
         if userRole == 'RESTAURANT':
             cursor = db.cursor()
@@ -118,7 +118,7 @@ def logInPage():
         print(userRole)
         print(username)
         # 连接数据库，默认数据库用户名root，密码空
-        db = MySQLdb.connect("localhost", "root", "whj123", "appDB", charset='utf8')
+        db = MySQLdb.connect("localhost", "root", "", "appDB", charset='utf8')
 
         if userRole == 'ADMIN':
             cursor = db.cursor()
@@ -194,7 +194,7 @@ def adminRestListPage():
     if request.method == 'GET':
         msg = ""
         # 连接数据库，默认数据库用户名root，密码空
-        db = MySQLdb.connect("localhost", "root", "whj123", "appDB", charset='utf8')
+        db = MySQLdb.connect("localhost", "root", "", "appDB", charset='utf8')
         cursor = db.cursor()
         try:
             cursor.execute("use appDB")
@@ -224,7 +224,7 @@ def adminCommentPage():
     if request.method == 'GET':
         msg = ""
         # 连接数据库，默认数据库用户名root，密码空
-        db = MySQLdb.connect("localhost", "root", "whj123", "appDB", charset='utf8')
+        db = MySQLdb.connect("localhost", "root", "", "appDB", charset='utf8')
         cursor = db.cursor()
         try:
             cursor.execute("use appDB")
@@ -246,7 +246,7 @@ def adminCommentPage():
             msg = "none"
             return render_template('adminCommentList.html', username=username, messages=msg)
     elif request.form["action"] == "按评分升序排列":
-        db = MySQLdb.connect("localhost", "root", "whj123", "appDB", charset='utf8')
+        db = MySQLdb.connect("localhost", "root", "", "appDB", charset='utf8')
         cursor = db.cursor()
         try:
             cursor.execute("use appDB")
@@ -285,7 +285,7 @@ def ModifyPersonalInfo():
         address = request.form['address']
         phonenum = request.form['phonenum']
         # 连接数据库，默认数据库用户名root，密码空
-        db = MySQLdb.connect("localhost", "root", "whj123", "appDB", charset='utf8')
+        db = MySQLdb.connect("localhost", "root", "", "appDB", charset='utf8')
         cursor = db.cursor()
         try:
             cursor.execute("use appDB")
@@ -318,7 +318,7 @@ def ModifyPassword():
         # 两次输入密码是否相同
         if psw1 == psw2:
             # 连接数据库，默认数据库用户名root，密码空
-            db = MySQLdb.connect("localhost", "root", "whj123", "appDB", charset='utf8')
+            db = MySQLdb.connect("localhost", "root", "", "appDB", charset='utf8')
             cursor = db.cursor()
             try:
                 cursor.execute("use appDB")
@@ -347,7 +347,7 @@ def OrderPage():
     if request.method == 'GET':
         msg = ""
         # 连接数据库，默认数据库用户名root，密码空
-        db = MySQLdb.connect("localhost", "root", "whj123", "appDB", charset='utf8')
+        db = MySQLdb.connect("localhost", "root", "", "appDB", charset='utf8')
         cursor = db.cursor()
         try:
             cursor.execute("use appDB")
@@ -374,7 +374,7 @@ def OrderPage():
             msg = "none"
             return render_template('OrderPage.html', username=username, messages=msg)
     elif request.form["action"] == "按时间排序":
-        db = MySQLdb.connect("localhost", "root", "whj123", "appDB", charset='utf8')
+        db = MySQLdb.connect("localhost", "root", "", "appDB", charset='utf8')
         cursor = db.cursor()
         try:
             cursor.execute("use appDB")
@@ -396,7 +396,7 @@ def OrderPage():
             msg = "none"
         return render_template('OrderPage.html', username=username, messages=msg)
     elif request.form["action"] == "按价格排序":
-        db = MySQLdb.connect("localhost", "root", "whj123", "appDB", charset='utf8')
+        db = MySQLdb.connect("localhost", "root", "", "appDB", charset='utf8')
         cursor = db.cursor()
         try:
             cursor.execute("use appDB")
@@ -418,7 +418,7 @@ def OrderPage():
             msg = "none"
         return render_template('OrderPage.html', username=username, messages=msg, notFinishedNum=notFinishedNum)
     elif request.form["action"] == "未完成订单":
-        db = MySQLdb.connect("localhost", "root", "whj123", "appDB", charset='utf8')
+        db = MySQLdb.connect("localhost", "root", "", "appDB", charset='utf8')
         cursor = db.cursor()
         try:
             cursor.execute("use appDB")
@@ -440,7 +440,7 @@ def OrderPage():
             msg = "none"
         return render_template('OrderPage.html', username=username, messages=msg, notFinishedNum=notFinishedNum)
     elif request.form["action"] == "确认收货":
-        db = MySQLdb.connect("localhost", "root", "whj123", "appDB", charset='utf8')
+        db = MySQLdb.connect("localhost", "root", "", "appDB", charset='utf8')
         cursor = db.cursor()
         try:
             cursor.execute("use appDB")
@@ -464,7 +464,7 @@ def MyCommentsPage():
     if request.method == 'GET':
         msg = ""
         # 连接数据库，默认数据库用户名root，密码空
-        db = MySQLdb.connect("localhost", "root", "whj123", "appDB", charset='utf8')
+        db = MySQLdb.connect("localhost", "root", "", "appDB", charset='utf8')
         cursor = db.cursor()
         try:
             cursor.execute("use appDB")
@@ -491,7 +491,7 @@ def MyCommentsPage():
             msg = "none"
             return render_template('MyComments.html', username=username, messages=msg)
     elif request.form["action"] == "按时间排序":
-        db = MySQLdb.connect("localhost", "root", "whj123", "appDB", charset='utf8')
+        db = MySQLdb.connect("localhost", "root", "", "appDB", charset='utf8')
         cursor = db.cursor()
         try:
             cursor.execute("use appDB")
@@ -513,7 +513,7 @@ def MyCommentsPage():
             msg = "none"
         return render_template('MyComments.html', username=username, messages=msg)
     elif request.form["action"] == "按价格排序":
-        db = MySQLdb.connect("localhost", "root", "whj123", "appDB", charset='utf8')
+        db = MySQLdb.connect("localhost", "root", "", "appDB", charset='utf8')
         cursor = db.cursor()
         try:
             cursor.execute("use appDB")
@@ -536,7 +536,7 @@ def MyCommentsPage():
         return render_template('MyComments.html', username=username, messages=msg, notFinishedNum=notFinishedNum)
     elif request.form["action"] == "未评价订单":
         # TODO：这部分考虑去掉
-        db = MySQLdb.connect("localhost", "root", "whj123", "appDB", charset='utf8')
+        db = MySQLdb.connect("localhost", "root", "", "appDB", charset='utf8')
         cursor = db.cursor()
         try:
             cursor.execute("use appDB")
@@ -567,7 +567,7 @@ def WriteCommentsPage():
     if request.method == 'GET':
         msg = ""
         # 连接数据库，默认数据库用户名root，密码空
-        db = MySQLdb.connect("localhost", "root", "whj123", "appDB", charset='utf8')
+        db = MySQLdb.connect("localhost", "root", "", "appDB", charset='utf8')
         cursor = db.cursor()
         try:
             cursor.execute("use appDB")
@@ -594,7 +594,7 @@ def WriteCommentsPage():
             msg = "none"
             return render_template('WriteComments.html', username=username, messages=msg)
     elif request.form["action"] == "按时间排序":
-        db = MySQLdb.connect("localhost", "root", "whj123", "appDB", charset='utf8')
+        db = MySQLdb.connect("localhost", "root", "", "appDB", charset='utf8')
         cursor = db.cursor()
         try:
             cursor.execute("use appDB")
@@ -616,7 +616,7 @@ def WriteCommentsPage():
             msg = "none"
         return render_template('WriteComments.html', username=username, messages=msg)
     elif request.form["action"] == "按价格排序":
-        db = MySQLdb.connect("localhost", "root", "whj123", "appDB", charset='utf8')
+        db = MySQLdb.connect("localhost", "root", "", "appDB", charset='utf8')
         cursor = db.cursor()
         try:
             cursor.execute("use appDB")
@@ -638,7 +638,7 @@ def WriteCommentsPage():
             msg = "none"
         return render_template('WriteComments.html', username=username, messages=msg, notFinishedNum=notFinishedNum)
     elif request.form["action"] == "未完成订单":
-        db = MySQLdb.connect("localhost", "root", "whj123", "appDB", charset='utf8')
+        db = MySQLdb.connect("localhost", "root", "", "appDB", charset='utf8')
         cursor = db.cursor()
         try:
             cursor.execute("use appDB")
