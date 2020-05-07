@@ -12,6 +12,7 @@ app = Flask(__name__)
 
 # 全局变量
 username = "TJU"
+# TODO: username变量的赋值  方法1：全局变量实现，随登录进行修改  方法2：给每个页面传递username
 userRole = "CUSTOMER"
 notFinishedNum = 0
 
@@ -186,6 +187,7 @@ def logInPage():
                 msg = "fail3"
             return render_template('logIn.html', messages=msg, username=username, userRole=userRole)
 
+# TODO: 登录前不显示“个人中心”标识，只有在登录成功后首页才显示“个人中心”按钮
 
 # 管理员的店铺列表页面
 @app.route('/adminRestList', methods=['GET', 'POST'])
@@ -534,29 +536,29 @@ def MyCommentsPage():
             print("NULL")
             msg = "none"
         return render_template('MyComments.html', username=username, messages=msg, notFinishedNum=notFinishedNum)
-    elif request.form["action"] == "未评价订单":
-        # TODO：这部分考虑去掉
-        db = MySQLdb.connect("localhost", "root", "", "appDB", charset='utf8')
-        cursor = db.cursor()
-        try:
-            cursor.execute("use appDB")
-        except:
-            print("Error: unable to use database!")
+    # elif request.form["action"] == "未评价订单":
+    #     # TODO：这部分考虑去掉
+    #     db = MySQLdb.connect("localhost", "root", "", "appDB", charset='utf8')
+    #     cursor = db.cursor()
+    #     try:
+    #         cursor.execute("use appDB")
+    #     except:
+    #         print("Error: unable to use database!")
 
-        sql = "SELECT * FROM ORDER_COMMENT WHERE username = '%s' AND isFinished = 1 AND text is null" % username
-        cursor.execute(sql)
-        res = cursor.fetchall()
-        print(res)
-        print(len(res))
-        if len(res):
-            msg = "done"
-            print(msg)
-            return render_template('MyComments.html', username=username, result=res, messages=msg,
-                                   notFinishedNum=len(res))
-        else:
-            print("NULL")
-            msg = "none"
-        return render_template('MyComments.html', username=username, messages=msg, notFinishedNum=notFinishedNum)
+    #     sql = "SELECT * FROM ORDER_COMMENT WHERE username = '%s' AND isFinished = 1 AND text is null" % username
+    #     cursor.execute(sql)
+    #     res = cursor.fetchall()
+    #     print(res)
+    #     print(len(res))
+    #     if len(res):
+    #         msg = "done"
+    #         print(msg)
+    #         return render_template('MyComments.html', username=username, result=res, messages=msg,
+    #                                notFinishedNum=len(res))
+    #     else:
+    #         print("NULL")
+    #         msg = "none"
+    #     return render_template('MyComments.html', username=username, messages=msg, notFinishedNum=notFinishedNum)
 
     else:
         return render_template('MyComments.html', username=username, messages=msg)
@@ -564,8 +566,8 @@ def MyCommentsPage():
 
 @app.route('/WriteComments', methods=['GET', 'POST'])
 def WriteCommentsPage():
+    msg=""
     if request.method == 'GET':
-        msg = ""
         # 连接数据库，默认数据库用户名root，密码空
         db = MySQLdb.connect("localhost", "root", "", "appDB", charset='utf8')
         cursor = db.cursor()
@@ -579,7 +581,7 @@ def WriteCommentsPage():
         res1 = cursor.fetchall()
         notFinishedNum = len(res1)
         # 查询其他信息
-        sql = "SELECT * FROM ORDER_COMMENT WHERE username = '%s'" % username
+        sql = "SELECT * FROM ORDER_COMMENT WHERE username = '%s' AND isFinished = 1 AND text is null" % username
         cursor.execute(sql)
         res = cursor.fetchall()
         # print(res)
@@ -593,15 +595,16 @@ def WriteCommentsPage():
             print("NULL")
             msg = "none"
             return render_template('WriteComments.html', username=username, messages=msg)
-    elif request.form["action"] == "按时间排序":
+    elif request.form["action"] == "按交易时间排序":
+        # TODO: 排序之后显示的是空的，不显示的问题没有解决
         db = MySQLdb.connect("localhost", "root", "", "appDB", charset='utf8')
         cursor = db.cursor()
         try:
             cursor.execute("use appDB")
         except:
             print("Error: unable to use database!")
-
-        sql = "SELECT * FROM ORDER_COMMENT WHERE username = '%s' Order BY tansactiontime DESC" % username
+        print(username)
+        sql = "SELECT * FROM ORDER_COMMENT WHERE username = '%s' AND isFinished = 1 Order BY tansactiontime DESC" % username
         cursor.execute(sql)
         res = cursor.fetchall()
         print(res)
@@ -609,8 +612,7 @@ def WriteCommentsPage():
         if len(res):
             msg = "done"
             print(msg)
-            return render_template('WriteComments.html', username=username, result=res, messages=msg,
-                                   notFinishedNum=notFinishedNum)
+            return render_template('WriteComments.html', username=username, result=res, messages=msg)
         else:
             print("NULL")
             msg = "none"
@@ -676,13 +678,39 @@ def WriteCommentsPage():
 @app.route('/CommentForm', methods=['GET', 'POST'])
 def CommentFormPage():
     msg = ""
+    print(request.method)
+    # print(request.form["action"])
     if request.form["action"] == "写评论":
-        print("用户要评论啦")
         orderID = request.form['orderID']
         print(orderID)
         msg = "WriteRequest"
         print(msg)
         return render_template('CommentForm.html', username=username, orderID=orderID, messages=msg)
+    elif request.form["action"] == "提交评论":
+        print("提交评论!")
+        orderID = request.form.get('orderID')
+        rank = request.form.get('rank')
+        text = request.form.get('text')
+        db = MySQLdb.connect("localhost", "root", "", "appDB", charset='utf8')
+        cursor = db.cursor()
+        try:
+            cursor.execute("use appDB")
+        except:
+            print("Error: unable to use database!")
+        sql = "Update ORDER_COMMENT SET text = '{}', rank = {} where orderID = '{}'".format(text, rank, orderID)
+        print(sql)
+        try:
+            cursor.execute(sql)
+            db.commit()
+            print("用户评论成功")
+            msg = "done"
+        except ValueError as e:
+            print("--->", e)
+            print("用户评论失败")
+            msg = "fail"
+        return render_template('CommentForm.html', messages = msg, username=username)
+    
+
 
 
 if __name__ == '__main__':

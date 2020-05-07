@@ -56,62 +56,78 @@
             </div>
         </nav>  
         </div>
-    <div class="gtco-section">
-        <div class="row">
-            <div class="col-md-8 col-md-offset-2 text-center gtco-heading">
-                <p style="font-size: 40px; color: #FBB448; font-family: Helvetica;">写评价</p>
-                <!-- <p>Dignissimos asperiores vitae velit veniam totam fuga molestias accusamus alias autem provident. Odit ab aliquam dolor eius.</p> -->
-            </div>
-        </div>
-        <p style="color: wheat;">{{messages}}</p>
-        {% if messages == "WriteRequest" %}
+    
+        <!-- <p style="color: wheat;">{{messages}}</p> -->
+        <!-- {% if messages == "WriteRequest" %}
         <p>{{orderID}}</p>
         {% else %}
         
-        {% endif %}
-    </div>
-    <header id="gtco-header" class="gtco-cover gtco-cover-md" role="banner" style="background-color: transparent;" data-stellar-background-ratio="0.5">
+        {% endif %} -->
+    
+	<header id="gtco-header" class="gtco-cover gtco-cover-md" role="banner" style="background-image: url('static/images/img_bg_1.jpg')" data-stellar-background-ratio="0.5">
+		<div class="overlay"></div>
 		<div class="gtco-container">
 			<div class="row">
-				<div class="col-md-12 col-md-offset-2 text-left" style="margin-left: 0px;">
+				<div class="col-md-12 col-md-offset-0 text-left">
 					<div class="row row-mt-15em" style="margin-top: 10em;">
-						<div class="col-md-8 col-md-push-1 animate-box" data-animate-effect="fadeInRight">
-							<div class="form-wrap" style="background-color: white;">
+						<div class="col-md-7 mt-text animate-box" data-animate-effect="fadeInUp">
+							<!-- <span class="intro-text-small">Hand-crafted by <a href="http://gettemplates.co" target="_blank">GetTemplates.co</a></span> -->
+							<h1 class="cursive-font">Write your comment!</h1>
+						</div>
+						<div class="col-md-4 col-md-push-1 animate-box" data-animate-effect="fadeInRight">
+							<div class="form-wrap">
 								<div class="tab">
-									<div class="tab-content" style="background-color: white;">
-                                            <p style="color: black;">订单编号：{{ orderID }}<br/></p>
+									<div class="tab-content">
+										<div class="tab-content-inner active" data-content="signup">
+											<p>写下你的评价</p>
 											<!-- 以下是表单 -->
-											<form action="" method="POST" enctype="multipart/form-data">
+											<form action="{{ url_for('CommentFormPage') }}" method="POST" enctype="multipart/form-data">
 												<div class="row form-group">
 													<div class="col-md-12">
-														<label for="activities" style="color: black;">评分</label>
-														<input type="text" name="rank" class="form-control" style="background:transparent; color: black;"/>
+														<label for="activities">订单号</label>
+														<input type="text" name="orderID" class="form-control" value="{{ orderID }}" placeholder="{{orderID}} " readonly="readonly" style="background:transparent;"/>
 													</div>
 												</div>
 												<div class="row form-group">
 													<div class="col-md-12">
-														<label for="date-start" style="color: black;">评论文字</label>
-														<input type="text" name="text" class="form-control" style="background:transparent; color: black;">
+														<label for="date-start">评分</label>
+														<input type="text" name="rank" class="form-control" style="background:transparent;">
 													</div>
 												</div>
-												
+												<div class="row form-group">
+													<div class="col-md-12">
+														<label for="date-start">评论</label>
+														<input type="text" name="text" class="form-control" style="background:transparent; height: 80px;">
+													</div>
+												</div>
+												<div class="row form-group">
+													<div class="col-md-12">
+														<input type="submit" name="action" value="提交评论" class="btn btn-primary btn-block" value="确认" style="background: #FBB448;"/>
+													</div>
+												</div>
 											</form>	
 											{% if messages == "done" %}
-												<script>alert("修改个人信息成功！")</script>
-											{% elif messages == "fail" %}
+												<script>alert("评论成功！")</script>
+												<script language="javascript" type="text/javascript"> 
+													// 以下方式定时跳转
+													setTimeout("javascript:location.href='WriteComments'", 1000); 
+												</script>
+                                            {% elif messages == "fail" %}
                                                 <script>alert("数据库错误！")</script>
 											{% endif %}
+										</div>
 
+										
 									</div>
 								</div>
 							</div>
 						</div>
 					</div>
-					
+							
 				</div>
 			</div>
 		</div>
-    </header>
+    </header>   
 
 
             	<!-- jQuery -->

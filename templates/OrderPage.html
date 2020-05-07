@@ -45,7 +45,7 @@
 								<li><a href="ModifyPassword">修改密码</a></li>
                                 <li><a href="OrderPage">我的订单</a></li>
                                 <li><a href="MyComments">我的评价</a></li>
-                                <li><a href="#">待评价</a></li>
+                                <li><a href="WriteComments">发表评价</a></li>
                             </ul>
 						</li>
 						<li><a href="index">返回首页</a></li>
@@ -103,7 +103,7 @@
 									{% elif item[7] == 0 %}
 										<p>订单状态：<span style="color: red;">未完成</span></p>
 									{% endif %}
-									<p>订单总价格：<span class="price cursive-font">￥{{ item[13]}}</span></p>
+									<p style="margin-left: 322px;">订单总价格：<span class="price cursive-font">￥{{ item[13]}}</span></p>
 									<form action="{{ url_for('OrderPage') }}" method="post">
 										<input name="orderID" value={{ item[0] }} style="display: none;">
 										{% if item[7] == 0 %}
