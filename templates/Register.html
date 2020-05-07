@@ -70,7 +70,7 @@
 									<div class="tab-content">
 										<div class="tab-content-inner active" data-content="signup">
 											<h3 class="cursive-font">请注册</h3>
-											<form action="register.py" method="post">
+											<form action="" method="post">
 												<div class="row form-group">
 													<div class="col-md-12">
 														<label for="activities">身份</label><br>
@@ -97,8 +97,16 @@
 													</div>
 												</div>
 											</form>
+											{% if messages == "done1" %}
+												<script>alert("商家注册成功！")</script>
+											{% elif messages == "fail1" %}
+                                                <script>alert("注册失败！商家已注册。")</script>
+											{% elif messages == "done2" %}
+												<script>alert("用户注册成功！")</script>
+											{% elif messages == "fail2" %}
+                                                <script>alert("注册失败！用户已注册。")</script>
+											{% endif %}
 											<div class="col-md-12">
-
 											</div>
 										</div>
 

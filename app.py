@@ -27,7 +27,81 @@ def indexpage():
 # 注册
 @app.route('/register', methods=['GET', 'POST'])
 def registerPage():
-    return render_template('Register.html')
+    global username
+    global userRole
+    msg = ""
+    if request.method == 'GET':
+        return render_template('Register.html')
+    if request.method == 'POST':
+        username = request.form.get('username')
+        password = request.form.get('password')
+        userRole = request.form.get('userRole')
+        print(userRole)
+        print(username)
+        # 连接数据库，默认数据库用户名root，密码空
+        db = MySQLdb.connect("localhost", "root", "", "appDB", charset='utf8')
+
+        if userRole == 'RESTAURANT':
+            cursor = db.cursor()
+            try:
+                cursor.execute("use appDB")
+            except:
+                print("Error: unable to use database!")
+            sql1 = "SELECT * from RESTAURANT where username = '{}' ".format(username)
+            cursor.execute(sql1)
+            db.commit()
+            res1 = cursor.fetchall()
+            num = 0
+            for row in res1:
+                num = num + 1
+            # 如果已经存在该商家
+            if num == 1:
+                print("失败！商家已注册！")
+                msg = "fail1"
+            else:
+                sql2 = "insert into RESTAURANT (username, password) values ('{}', '{}') ".format(username, password)
+
+                try:
+                    cursor.execute(sql2)
+                    db.commit()
+                    print("商家注册成功")
+                    msg = "done1"
+                except ValueError as e:
+                    print("--->", e)
+                    print("注册出错，失败")
+                    msg = "fail1"
+            return render_template('Register.html', messages=msg, username=username, userRole=userRole)
+
+        elif userRole == 'CUSTOMER':
+            cursor = db.cursor()
+            try:
+                cursor.execute("use appDB")
+            except:
+                print("Error: unable to use database!")
+            sql1 = "SELECT * from CUSTOMER where username = '{}'".format(username)
+            cursor.execute(sql1)
+            db.commit()
+            res1 = cursor.fetchall()
+            num = 0
+            for row in res1:
+                num = num + 1
+            # 如果已存在该用户
+            if num == 1:
+                print("用户已注册！请直接登录。")
+                msg = "fail2"
+            else:
+                sql2 = "insert into CUSTOMER (username, password) values ('{}', '{}') ".format(username, password)
+
+                try:
+                    cursor.execute(sql2)
+                    db.commit()
+                    print("商家注册成功")
+                    msg = "done2"
+                except ValueError as e:
+                    print("--->", e)
+                    print("注册出错，失败")
+                    msg = "fail2"
+            return render_template('Register.html', messages=msg, username=username, userRole=userRole)
 
 
 # 登录
@@ -45,7 +119,7 @@ def logInPage():
         print(userRole)
         print(username)
         # 连接数据库，默认数据库用户名root，密码空
-        db = MySQLdb.connect("localhost", "root", "whj123", "appDB", charset='utf8')
+        db = MySQLdb.connect("localhost", "root", "", "appDB", charset='utf8')
 
         if userRole == 'ADMIN':
             cursor = db.cursor()
@@ -116,9 +190,85 @@ def logInPage():
 # TODO: 登录前不显示“个人中心”标识，只有在登录成功后首页才显示“个人中心”按钮
 
 # 管理员的店铺列表页面
-@app.route('/adminRestList')
+@app.route('/adminRestList', methods=['GET', 'POST'])
 def adminRestListPage():
-    return render_template('adminRestList.html')
+    msg = ""
+    if request.method == 'GET':
+        msg = ""
+        # 连接数据库，默认数据库用户名root，密码空
+        db = MySQLdb.connect("localhost", "root", "", "appDB", charset='utf8')
+        cursor = db.cursor()
+        try:
+            cursor.execute("use appDB")
+        except:
+            print("Error: unable to use database!")
+
+        # 查询
+        sql = "SELECT * FROM RESTAURANT"
+        cursor.execute(sql)
+        res = cursor.fetchall()
+        # print(res)
+        # print(len(res))
+        if len(res) != 0:
+            msg = "done"
+            print(msg)
+            return render_template('adminRestList.html', username=username, result=res, messages=msg)
+        else:
+            print("NULL")
+            msg = "none"
+            return render_template('adminRestList.html', username=username, messages=msg)
+
+
+# 管理员查看评论列表
+@app.route('/adminCommentList', methods=['GET', 'POST'])
+def adminCommentPage():
+    msg = ""
+    if request.method == 'GET':
+        msg = ""
+        # 连接数据库，默认数据库用户名root，密码空
+        db = MySQLdb.connect("localhost", "root", "", "appDB", charset='utf8')
+        cursor = db.cursor()
+        try:
+            cursor.execute("use appDB")
+        except:
+            print("Error: unable to use database!")
+
+        # 查询
+        sql = "SELECT * FROM ORDER_COMMENT WHERE isFinished = 1 and text is not null"
+        cursor.execute(sql)
+        res = cursor.fetchall()
+        # print(res)
+        # print(len(res))
+        if len(res) != 0:
+            msg = "done"
+            print(msg)
+            return render_template('adminCommentList.html', username=username, result=res, messages=msg)
+        else:
+            print("NULL")
+            msg = "none"
+            return render_template('adminCommentList.html', username=username, messages=msg)
+    elif request.form["action"] == "按评分升序排列":
+        db = MySQLdb.connect("localhost", "root", "", "appDB", charset='utf8')
+        cursor = db.cursor()
+        try:
+            cursor.execute("use appDB")
+        except:
+            print("Error: unable to use database!")
+
+        sql = "SELECT * FROM ORDER_COMMENT WHERE isFinished = 1 AND text is not null Order BY c_rank"
+        cursor.execute(sql)
+        res = cursor.fetchall()
+        # print(res)
+        print(len(res))
+        if len(res):
+            msg = "done"
+            print(msg)
+            return render_template('adminCommentList.html', username=username, result=res, messages=msg)
+        else:
+            print("NULL")
+            msg = "none"
+        return render_template('adminCommentList.html', username=username, messages=msg)
+
 
 # 个人中心页面
 @app.route('/personal')
