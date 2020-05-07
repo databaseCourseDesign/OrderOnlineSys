@@ -1980,4 +1980,11 @@ form label {
   border-radius: 10px;
 }
 
+.inputstyle {
+  color: #FBB448; 
+  background-color: white;
+  font-size: 18px;
+
+}
+
 /*# sourceMappingURL=style.css.map */
