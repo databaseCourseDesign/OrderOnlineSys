@@ -22,10 +22,7 @@ def indexpage():
     return render_template('MerchantIndex.html')
 
 
-# 登录页面
-@app.route('/login')
-def loginPage():
-    return render_template('login.html')
+
 
 
 # 个人中心页面
@@ -202,6 +199,34 @@ def MerchantOrderPage():
     else:
         return render_template('MerchantOrderPage.html', username=username, messages=msg)
 
+@app.route('/MerchantMenu',methods=['GET', 'POST'])
+def menu():
+    msg = ""
+    if request.method == 'GET':
+        msg = ""
+        # 连接数据库，默认数据库用户名root，密码空
+        db = MySQLdb.connect("localhost", "root", "", "appDB", charset='utf8')
+        cursor = db.cursor()
+        try:
+            cursor.execute("use appDB")
+        except:
+            print("Error: unable to use database!")
+        # 查询
+        sql = "SELECT * FROM DISHES WHERE restaurant = '%s'" % username
+
+        cursor.execute(sql)
+        res = cursor.fetchall()
+        # print(res)
+        # print(len(res))
+        if len(res) != 0:
+            msg = "done"
+            print(msg)
+            print(len(res))
+            return render_template('MerchantMenu.html', username=username, result=res, messages=msg)
+        else:
+            print("NULL")
+            msg = "none"
+            return render_template('MerchantMenu.html', username=username, messages=msg)
 
 if __name__ == '__main__':
     app.run(host='localhost', port='5001')
