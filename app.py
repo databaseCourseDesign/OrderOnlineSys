@@ -14,6 +14,7 @@ app = Flask(__name__)
 username = "TJU"
 # TODO: username变量的赋值  方法1：全局变量实现，随登录进行修改  方法2：给每个页面传递username
 userRole = "CUSTOMER"
+restaurant = "res1"
 notFinishedNum = 0
 
 
@@ -302,6 +303,64 @@ def adminCommentPage():
             print("NULL")
             msg = "none"
         return render_template('adminCommentList.html', username=username, messages=msg)
+
+# 用户登录后显示商家列表
+@app.route('/UserRestList',methods=['GET', 'POST'])
+def UserRestListPage():
+    msg = ""
+    if request.method == 'GET':
+        msg = ""
+        # 连接数据库，默认数据库用户名root，密码空
+        db = MySQLdb.connect("localhost", "root", "", "appDB", charset='utf8')
+        cursor = db.cursor()
+        try:
+            cursor.execute("use appDB")
+        except:
+            print("Error: unable to use database!")
+
+        # 查询
+        sql = "SELECT * FROM RESTAURANT"
+        cursor.execute(sql)
+        res = cursor.fetchall()
+        # print(res)
+        # print(len(res))
+        if len(res) != 0:
+            msg = "done"
+            print(msg)
+            return render_template('UserRestList.html', username=username, result=res, messages=msg)
+        else:
+            print("NULL")
+            msg = "none"
+            return render_template('UserRestList.html', username=username, messages=msg)
+
+#选择商家进入菜单列表
+@app.route('/Menu',methods=['GET', 'POST'])
+def menu():
+    msg = ""
+    if request.method == 'GET':
+        msg = ""
+        # 连接数据库，默认数据库用户名root，密码空
+        db = MySQLdb.connect("localhost", "root", "", "appDB", charset='utf8')
+        cursor = db.cursor()
+        try:
+            cursor.execute("use appDB")
+        except:
+            print("Error: unable to use database!")
+        # 查询
+        sql = "SELECT * FROM DISHES WHERE restaurant = 'res1'"
+        cursor.execute(sql)
+        res = cursor.fetchall()
+        # print(res)
+        # print(len(res))
+        if len(res) != 0:
+            msg = "done"
+            print(msg)
+            print(len(res))
+            return render_template('Menu.html', username=username, RESTAURANT=restaurant, result=res, messages=msg)
+        else:
+            print("NULL")
+            msg = "none"
+            return render_template('Menu.html', username=username, RESTAURANT=restaurant, messages=msg)
 
 
 # 个人中心页面
