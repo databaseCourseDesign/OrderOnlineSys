@@ -361,6 +361,117 @@ def menu():
             print("NULL")
             msg = "none"
             return render_template('Menu.html', username=username, RESTAURANT=restaurant, messages=msg)
+    elif request.form["action"] == "特色菜":
+        db = MySQLdb.connect("localhost", "root", "", "appDB", charset='utf8')
+        cursor = db.cursor()
+        try:
+            cursor.execute("use appDB")
+        except:
+            print("Error: unable to use database!")
+
+        sql = "SELECT * FROM DISHES WHERE restaurant = 'res1' AND isSpecialty = 1"
+        cursor.execute(sql)
+        res = cursor.fetchall()
+        print(res)
+        print(len(res))
+        if len(res):
+            msg = "done"
+            print(msg)
+            return render_template('Menu.html', username=username, RESTAURANT=restaurant, result=res, messages=msg)
+        else:
+            print("NULL")
+            msg = "none"
+        return render_template('Menu.html', username=username, RESTAURANT=restaurant, messages=msg)
+    elif request.form["action"] == "按销量排序":
+        db = MySQLdb.connect("localhost", "root", "", "appDB", charset='utf8')
+        cursor = db.cursor()
+        try:
+            cursor.execute("use appDB")
+        except:
+            print("Error: unable to use database!")
+
+        sql = "SELECT * FROM DISHES WHERE restaurant = 'res1' Order BY sales DESC"
+        cursor.execute(sql)
+        res = cursor.fetchall()
+        print(res)
+        print(len(res))
+        if len(res):
+            msg = "done"
+            print(msg)
+            return render_template('Menu.html', username=username, RESTAURANT=restaurant, result=res, messages=msg)
+        else:
+            print("NULL")
+            msg = "none"
+        return render_template('Menu.html', username=username, RESTAURANT=restaurant, messages=msg)
+    elif request.form["action"] == "按价格排序":
+        db = MySQLdb.connect("localhost", "root", "", "appDB", charset='utf8')
+        cursor = db.cursor()
+        try:
+            cursor.execute("use appDB")
+        except:
+            print("Error: unable to use database!")
+
+        sql = "SELECT * FROM DISHES WHERE restaurant = 'res1' Order BY price DESC"
+        cursor.execute(sql)
+        res = cursor.fetchall()
+        print(res)
+        print(len(res))
+        if len(res):
+            msg = "done"
+            print(msg)
+            return render_template('Menu.html', username=username, RESTAURANT=restaurant, result=res, messages=msg)
+        else:
+            print("NULL")
+            msg = "none"
+        return render_template('Menu.html', username=username, RESTAURANT=restaurant, messages=msg)
+
+
+@app.route('/shoppingCart',methods=['GET', 'POST'])
+def shoppingCartPage():
+    if request.method == 'GET':
+        msg = ""
+        # 连接数据库，默认数据库用户名root，密码空
+        db = MySQLdb.connect("localhost", "root", "", "appdb", charset='utf8')
+        cursor = db.cursor()
+        try:
+            cursor.execute("use appDB")
+        except:
+            print("Error: unable to use database!")
+
+        # 查询
+        sql = "SELECT * FROM shoppingcart"
+        cursor.execute(sql)
+        res = cursor.fetchall()
+        # print(res)
+        # print(len(res))
+        if len(res) != 0:
+            msg = "done"
+            print(msg)
+            return render_template('shoppingCart.html')
+        else:
+            print("NULL")
+            msg = "none"
+            return render_template('shoppingCart.html')
+    elif request.method == 'POST':
+        db = MySQLdb.connect("localhost", "root", "", "appDB", charset='utf8')
+        cursor = db.cursor()
+        try:
+            cursor.execute("use appDB")
+        except:
+            print("Error: unable to use database!")
+        sql = "SELECT * FROM shoppingcart"
+        cursor.execute(sql)
+        res = cursor.fetchall()
+        # print(res)
+        # print(len(res))
+        if len(res) != 0:
+            msg = "done"
+            print(msg)
+            return render_template('shoppingCart.html')
+        else:
+            print("NULL")
+            msg = "none"
+            return render_template('shoppingCart.html')
 
 
 
