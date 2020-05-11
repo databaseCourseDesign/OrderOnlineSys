@@ -63,7 +63,7 @@
 								<li><a href="ModifyPassword">修改密码</a></li>
                                 <li><a href="OrderPage">我的订单</a></li>
                                 <li><a href="MyComments">我的评价</a></li>
-                                <li><a href="WriteComments">写评价</a></li>
+                                <li><a href="WriteComments">发表评价</a></li>
                             </ul>
 						</li>
 						<li><a href="index">返回首页</a></li>
@@ -88,7 +88,7 @@
 				<form action="{{ url_for('MyCommentsPage') }}" method="post">
 					<input type="submit" name="action" value="按时间排序" style="color: white; font-size: 16px; outline:none; border:0px; background-color: #FBB448; border-radius: 10px;">
 					<input type="submit" name="action" value="按价格排序" style="color: white; font-size: 16px; outline:none; border:0px; background-color: #FBB448; border-radius: 10px;">
-					<span class="badge" style="float: right;">{{ notFinishedNum }}</span><input type="submit" name="action" value="未评价订单" style="background-color: transparent; color: #FBB448; float: right; font-size: 16px; outline:none; border:0px;">
+					<span class="badge" style="float: right;">{{ notFinishedNum }}</span><input type="submit" name="action" value="待评价订单" style="background-color: transparent; color: #FBB448; float: right; font-size: 16px; outline:none; border:0px;">
 				</form>
 			</div>
 			<br/><br/>
@@ -127,8 +127,20 @@
 								<div class="fh5co-text" style="padding: 20px; float: left; text-align: left;">
 									<p style="font-size: 18px;">
 									<!-- var score = {{ item[11] }}	 -->
+									{% if item[11] == 5 %}
 									评分：<i class="iconfont" style="color: yellow;">&#xf0d5;&#xf0d5;&#xf0d5;&#xf0d5;&#xf0d5;</i> {{ item[11] }}	
-									</p>
+									{% elif item[11] == 4 %}
+									评分：<i class="iconfont" style="color: yellow;">&#xf0d5;&#xf0d5;&#xf0d5;&#xf0d5;</i><i class="iconfont" style="color: rgb(155, 155, 139);">&#xf0d5;</i> {{ item[11] }}	
+									{% elif item[11] == 3 %}
+									评分：<i class="iconfont" style="color: yellow;">&#xf0d5;&#xf0d5;&#xf0d5;</i><i class="iconfont" style="color: rgb(155, 155, 139);">&#xf0d5;&#xf0d5;</i> {{ item[11] }}	
+									{% elif item[11] == 2 %}
+									评分：<i class="iconfont" style="color: yellow;">&#xf0d5;&#xf0d5;</i><i class="iconfont" style="color: rgb(155, 155, 139);">&#xf0d5;&#xf0d5;&#xf0d5;</i> {{ item[11] }}	
+									{% elif item[11] == 1 %}
+									评分：<i class="iconfont" style="color: yellow;">&#xf0d5;</i><i class="iconfont" style="color: rgb(155, 155, 139);">&#xf0d5;&#xf0d5;&#xf0d5;&#xf0d5;</i> {{ item[11] }}	
+									{% elif item[11] == 0 %}
+									评分：<i class="iconfont" style="color: yellow;"></i><i class="iconfont" style="color: rgb(155, 155, 139);">&#xf0d5;&#xf0d5;&#xf0d5;&#xf0d5;&#xf0d5;</i> {{ item[11] }}	
+									{% endif %}
+								</p>
 									<p style="font-size: 18px; width: 500px;">评价：{{ item[10] }}</p>
 								</div>
 								<div class="fh5co-text" style="padding: 20px; float: right; margin-right: 20px;">
@@ -140,7 +152,7 @@
 					
 					{% elif messages == "none" %}
 						<!-- <p style="text-align: center;"><strong style="font-size: 18px;">您还没有订单哦！</strong></p> -->
-						<div class="alert alert-danger" role="alert">您还没有订单哦！</div>
+						<div class="alert alert-danger" role="alert">您还没有已评价订单！</div>
 					{% endif %}
 					
 				</div>				

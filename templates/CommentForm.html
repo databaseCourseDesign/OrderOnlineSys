@@ -35,7 +35,7 @@
             <div class="gtco-container">
                 <div class="row">
                     <div class="col-sm-4 col-xs-12">
-                        <div id="gtco-logo"><a href="index.html">写评价 <em>.</em></a></div>
+                        <div id="gtco-logo"><a href="index.html">发表评价 <em>.</em></a></div>
                     </div>
                     <div class="col-xs-8 text-right menu-1">
                         <ul>
@@ -46,7 +46,7 @@
                                     <li><a href="ModifyPassword">修改密码</a></li>
                                     <li><a href="OrderPage">我的订单</a></li>
                                     <li><a href="MyComments">我的评价</a></li>
-                                    <li><a href="WriteComments">写评价</a></li>
+                                    <li><a href="WriteComments">发表评价</a></li>
                                 </ul>
                             </li>
                             <li><a href="index">返回首页</a></li>
@@ -108,10 +108,7 @@
 											</form>	
 											{% if messages == "done" %}
 												<script>alert("评论成功！")</script>
-												<script language="javascript" type="text/javascript"> 
-													// 以下方式定时跳转
-													setTimeout("javascript:location.href='WriteComments'", 1000); 
-												</script>
+												<script type='text/javascript'>window.location.href='WriteComments'</script>
                                             {% elif messages == "fail" %}
                                                 <script>alert("数据库错误！")</script>
 											{% endif %}

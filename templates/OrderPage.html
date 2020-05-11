@@ -116,16 +116,13 @@
 						{% endfor %}
 					<!-- TODO -->
 					{% elif messages == "UpdateSucceed" %}
-					<div class="alert alert-success" role="alert">确认收货成功！3秒后自动跳转</div>
-					
-					<script language="javascript" type="text/javascript"> 
-						// 以下方式定时跳转
-						setTimeout("javascript:location.href='OrderPage'", 3000); 
-					</script>
+					<script>alert("确认收货成功！")</script>
+					<script type='text/javascript'>window.location.href='WriteComments'</script>
+				
 
 					{% elif messages == "none" %}
 						<!-- <p style="text-align: center;"><strong style="font-size: 18px;">您还没有订单哦！</strong></p> -->
-						<div class="alert alert-danger" role="alert">您还没有订单哦！</div>
+						<div class="alert alert-danger" role="alert">您还没有未完成订单哦！</div>
 					{% endif %}
 					
 				</div>				

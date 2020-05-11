@@ -188,8 +188,6 @@ def logInPage():
                 msg = "fail3"
             return render_template('logIn.html', messages=msg, username=username, userRole=userRole)
 
-# TODO: 登录前不显示“个人中心”标识，只有在登录成功后首页才显示“个人中心”按钮
-
 # 管理员的店铺列表页面
 @app.route('/adminRestList', methods=['GET', 'POST'])
 def adminRestListPage():
@@ -656,7 +654,7 @@ def OrderPage():
         print("用户要确认收货啦")
         orderID = request.form['orderID']
         print(orderID)
-        sql = "Update ORDER_COMMENT SET isFinished = 1 WHERE orderID = '%s' " % orderID
+        sql = "Update ORDER_COMMENT SET isFinished = 1, text = '' WHERE orderID = '%s' " % orderID
         cursor.execute(sql)
         msg = "UpdateSucceed"
         return render_template('OrderPage.html', username=username, messages=msg)
@@ -678,12 +676,12 @@ def MyCommentsPage():
         except:
             print("Error: unable to use database!")
         # 查询未完成及未评论订单数量
-        presql = "SELECT * FROM ORDER_COMMENT WHERE username = '%s' AND isFinished = 0 OR text is null" % username
+        presql = "SELECT * FROM ORDER_COMMENT WHERE username = '%s' AND isFinished = 1 AND text = '' " % username
         cursor.execute(presql)
         res1 = cursor.fetchall()
         notFinishedNum = len(res1)
         # 查询其他信息
-        sql = "SELECT * FROM ORDER_COMMENT WHERE username = '%s' and isFinished = 1 and text is not null" % username
+        sql = "SELECT * FROM ORDER_COMMENT WHERE username = '%s' and isFinished = 1 and text <> '' " % username
         cursor.execute(sql)
         res = cursor.fetchall()
         # print(res)
@@ -741,29 +739,30 @@ def MyCommentsPage():
             print("NULL")
             msg = "none"
         return render_template('MyComments.html', username=username, messages=msg, notFinishedNum=notFinishedNum)
-    # elif request.form["action"] == "未评价订单":
-    #     # TODO：这部分考虑去掉
-    #     db = MySQLdb.connect("localhost", "root", "", "appDB", charset='utf8')
-    #     cursor = db.cursor()
-    #     try:
-    #         cursor.execute("use appDB")
-    #     except:
-    #         print("Error: unable to use database!")
+    elif request.form["action"] == "待评价订单":
+        # 未评价订单跳转到写评论中
+        db = MySQLdb.connect("localhost", "root", "", "appDB", charset='utf8')
+        cursor = db.cursor()
+        try:
+            cursor.execute("use appDB")
+        except:
+            print("Error: unable to use database!")
 
-    #     sql = "SELECT * FROM ORDER_COMMENT WHERE username = '%s' AND isFinished = 1 AND text is null" % username
-    #     cursor.execute(sql)
-    #     res = cursor.fetchall()
-    #     print(res)
-    #     print(len(res))
-    #     if len(res):
-    #         msg = "done"
-    #         print(msg)
-    #         return render_template('MyComments.html', username=username, result=res, messages=msg,
-    #                                notFinishedNum=len(res))
-    #     else:
-    #         print("NULL")
-    #         msg = "none"
-    #     return render_template('MyComments.html', username=username, messages=msg, notFinishedNum=notFinishedNum)
+        sql = "SELECT * FROM ORDER_COMMENT WHERE username = '%s' AND isFinished = 1 AND text = '' " % username
+        cursor.execute(sql)
+        res = cursor.fetchall()
+        print(res)
+        print("MyCommentsPage - 未评价订单: {}".format(len(res)))
+        print(len(res))
+        if len(res):
+            msg = "done"
+            print(msg)
+            return render_template('WriteComments.html', username=username, result=res, messages=msg,
+                                   notFinishedNum=len(res))
+        else:
+            print("MyCommentsPage - 待评价订单 - NULL")
+            msg = "none"
+            return render_template('WriteComments.html', username=username, messages=msg, notFinishedNum=len(res))
 
     else:
         return render_template('MyComments.html', username=username, messages=msg)
@@ -781,12 +780,12 @@ def WriteCommentsPage():
         except:
             print("Error: unable to use database!")
         # 查询未完成订单数量
-        presql = "SELECT * FROM ORDER_COMMENT WHERE username = '%s' AND isFinished = 0" % username
-        cursor.execute(presql)
-        res1 = cursor.fetchall()
-        notFinishedNum = len(res1)
+        # presql = "SELECT * FROM ORDER_COMMENT WHERE username = '%s' AND isFinished = 0" % username
+        # cursor.execute(presql)
+        # res1 = cursor.fetchall()
+        # notFinishedNum = len(res1)
         # 查询其他信息
-        sql = "SELECT * FROM ORDER_COMMENT WHERE username = '%s' AND isFinished = 1 AND text is null" % username
+        sql = "SELECT * FROM ORDER_COMMENT WHERE username = '%s' AND isFinished = 1 AND text = '' " % username
         cursor.execute(sql)
         res = cursor.fetchall()
         # print(res)
@@ -794,10 +793,9 @@ def WriteCommentsPage():
         if len(res):
             msg = "done"
             print(msg)
-            return render_template('WriteComments.html', username=username, result=res, messages=msg,
-                                   notFinishedNum=notFinishedNum)
+            return render_template('WriteComments.html', username=username, result=res, messages=msg)
         else:
-            print("NULL")
+            print("WriteCommentsPage - GET - NULL")
             msg = "none"
             return render_template('WriteComments.html', username=username, messages=msg)
     elif request.form["action"] == "按交易时间排序":
@@ -809,7 +807,7 @@ def WriteCommentsPage():
         except:
             print("Error: unable to use database!")
         print(username)
-        sql = "SELECT * FROM ORDER_COMMENT WHERE username = '%s' AND isFinished = 1 Order BY tansactiontime DESC" % username
+        sql = "SELECT * FROM ORDER_COMMENT WHERE username = '%s' AND isFinished = 1 AND text = '' Order BY tansactiontime DESC" % username
         cursor.execute(sql)
         res = cursor.fetchall()
         print(res)
@@ -819,7 +817,7 @@ def WriteCommentsPage():
             print(msg)
             return render_template('WriteComments.html', username=username, result=res, messages=msg)
         else:
-            print("NULL")
+            print("WriteCommentsPage - 按交易时间排序 -NULL")
             msg = "none"
         return render_template('WriteComments.html', username=username, messages=msg)
     elif request.form["action"] == "按价格排序":
@@ -830,7 +828,7 @@ def WriteCommentsPage():
         except:
             print("Error: unable to use database!")
 
-        sql = "SELECT * FROM ORDER_COMMENT WHERE username = '%s' Order BY cost ASC" % username
+        sql = "SELECT * FROM ORDER_COMMENT WHERE username = '%s' AND isFinished = 1 AND text = '' Order BY cost ASC" % username
         cursor.execute(sql)
         res = cursor.fetchall()
         print(res)
@@ -841,7 +839,7 @@ def WriteCommentsPage():
             return render_template('WriteComments.html', username=username, result=res, messages=msg,
                                    notFinishedNum=notFinishedNum)
         else:
-            print("NULL")
+            print("WriteCommentsPage - 按价格排序 - NULL")
             msg = "none"
         return render_template('WriteComments.html', username=username, messages=msg, notFinishedNum=notFinishedNum)
     elif request.form["action"] == "未完成订单":
@@ -852,7 +850,7 @@ def WriteCommentsPage():
         except:
             print("Error: unable to use database!")
 
-        sql = "SELECT * FROM ORDER_COMMENT WHERE username = '%s' AND isFinished = 0 " % username
+        sql = "SELECT * FROM ORDER_COMMENT WHERE username = '%s' AND isFinished = 0 AND text = '' " % username
         cursor.execute(sql)
         res = cursor.fetchall()
         print(res)
@@ -863,19 +861,9 @@ def WriteCommentsPage():
             return render_template('WriteComments.html', username=username, result=res, messages=msg,
                                    notFinishedNum=len(res))
         else:
-            print("NULL")
+            print("WriteCommentsPage - 未完成订单 - NULL")
             msg = "none"
         return render_template('WriteComments.html', username=username, messages=msg, notFinishedNum=notFinishedNum)
-    # elif request.form["action"] == "写评论":
-    #     print("用户要评论啦")
-    #     orderID = request.form['orderID']
-    #     print(orderID)
-    #     msg = "WriteRequest"
-    #     return render_template('CommentForm.html', username=username, orderID=orderID, messages=msg)
-    elif request.form["action"] == "确认收货":
-        msg = "Confirm"
-        return render_template('WriteComments.html', username=username, messages=msg)
-
     else:
         return render_template('WriteComments.html', username=username, messages=msg)
 
@@ -894,7 +882,7 @@ def CommentFormPage():
     elif request.form["action"] == "提交评论":
         print("提交评论!")
         orderID = request.form.get('orderID')
-        rank = request.form.get('rank')
+        c_rank = request.form.get('rank')
         text = request.form.get('text')
         db = MySQLdb.connect("localhost", "root", "", "appDB", charset='utf8')
         cursor = db.cursor()
@@ -902,7 +890,7 @@ def CommentFormPage():
             cursor.execute("use appDB")
         except:
             print("Error: unable to use database!")
-        sql = "Update ORDER_COMMENT SET text = '{}', rank = {} where orderID = '{}'".format(text, rank, orderID)
+        sql = "Update ORDER_COMMENT SET text = '{}', c_rank = {} where orderID = '{}'".format(text, c_rank, orderID)
         print(sql)
         try:
             cursor.execute(sql)
