@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
+<head
+>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>个人中心</title>
@@ -64,7 +65,7 @@
 
         {% endif %} -->
 
-	<header id="gtco-header" class="gtco-cover gtco-cover-md" role="banner" style="background-image: url('static/images/img_bg_1.jpg')" data-stellar-background-ratio="0.5">
+	<header id="gtco-header" class="gtco-cover gtco-cover-md" role="banner" style="background-image: url('../static/images/img_bg_1.jpg')" data-stellar-background-ratio="0.5">
 		<div class="overlay"></div>
 		<div class="gtco-container">
 			<div class="row">
@@ -113,13 +114,28 @@
 													</div>
 												</div>
 
+                                                <div class="row form-group">
+													<div class="col-md-12">
+														<label for="activities">是否为招牌菜</label><br>
+														<input type="radio" name="isSpecialty" value="1" id="true" />
+                                                        <label for="true">是</label>
+    													<input type="radio" name="isSpecialty" value="0" id="false"/>
+                                                        <label for="false">否</label>
+													</div>
+												</div>
+
 												<div class="row form-group">
 													<div class="col-md-12">
 														<input type="submit" name="action" value="提交修改" class="btn btn-primary btn-block" value="确认" style="background: #FBB448;"/>
 													</div>
 												</div>
 											</form>
-											{% if messages == "done" %}
+                                            {% if isSpecialty =="1"%}
+                                                <script>alert("是招牌菜")</script>
+                                                <script>$("input[type=radio][name='isSpecialty'][value='1']").prop("checked", "checked");</script>
+                                            {% endif %}
+
+                                            {% if messages == "done" %}
 												<script>alert("修改成功！")</script>
 												<script language="javascript" type="text/javascript">
 													// 以下方式定时跳转

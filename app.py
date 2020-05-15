@@ -932,9 +932,31 @@ def MerchantMenu():
             print("NULL")
             msg = "none"
             return render_template('MerchantMenu.html', username=username, messages=msg)
+    if request.method == 'POST':
+        if request.form["action"] == "删除该菜品":
+            dishname = request.form.get('dishname')
+            rest = request.form.get('restaurant')
+            print(rest)
+            db = MySQLdb.connect("localhost", "root", "", "appDB", charset='utf8')
+            cursor = db.cursor()
+            try:
+                cursor.execute("use appDB")
+            except:
+                print("Error: unable to use database!")
+            sql = "DELETE FROM dishes where dishname = '{}' and restaurant = '{}'".format(dishname,rest)
+            print(sql)
+            try:
+                cursor.execute(sql)
+                db.commit()
+                print("菜品删除成功")
+                dmsg = "done"
+            except ValueError as e:
+                print("--->", e)
+                print("菜品删除失败")
+                dmsg = "fail"
+            return render_template('MerchantMenu.html', dishname=dishname, rest=rest, dmessages=dmsg)
 
-
-
+#商家修改菜品信息
 @app.route('/MenuModify', methods=['GET', 'POST'])
 def MenuModify():
     msg = ""
@@ -946,10 +968,12 @@ def MenuModify():
         dishinfo = request.form['dishinfo']
         nutriention = request.form.get('nutriention')
         price = request.form.get('price')
-
+        isSpecialty = request.form.get('isSpecialty')
         print(dishname)
+        print(isSpecialty)
+        print(type(isSpecialty))
 
-        return render_template('MenuModify.html', dishname=dishname, rest=rest, dishinfo=dishinfo, nutriention=nutriention, price=price, username=username, messages=msg)
+        return render_template('MenuModify.html', dishname=dishname, rest=rest, dishinfo=dishinfo, nutriention=nutriention, price=price, username=username, messages=msg,isSpecialty=isSpecialty)
     elif request.form["action"] == "提交修改":
 
         dishname = request.form.get('dishname')
@@ -958,14 +982,16 @@ def MenuModify():
         dishinfo = request.form['dishinfo']
         nutriention = request.form.get('nutriention')
         price = request.form.get('price')
-
+        isSpecialty = int(request.form.get('isSpecialty'))
+        print(isSpecialty)
+        print(type(isSpecialty))
         db = MySQLdb.connect("localhost", "root", "", "appDB", charset='utf8')
         cursor = db.cursor()
         try:
             cursor.execute("use appDB")
         except:
             print("Error: unable to use database!")
-        sql = "Update dishes SET dishinfo = '{}', nutriention = '{}', price = {} where dishname = '{}' and restaurant = '{}'".format(dishinfo,nutriention,price,dishname,rest)
+        sql = "Update dishes SET dishinfo = '{}', nutriention = '{}', price = {} , isSpecialty = {} where dishname = '{}' and restaurant = '{}'".format(dishinfo,nutriention,price,isSpecialty,dishname,rest)
         print(sql)
         try:
             cursor.execute(sql)
