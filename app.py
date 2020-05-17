@@ -16,7 +16,13 @@ username = "TJU"
 userRole = "CUSTOMER"
 restaurant = "res1"
 notFinishedNum = 0
-
+# 上传文件要储存的目录
+UPLOAD_FOLDER = '/static/images/'
+# 允许上传的文件扩展名的集合
+ALLOWED_EXTENSIONS = set([ 'png', 'jpg', 'jpeg'])
+def allowed_file(filename):
+    return '.' in filename and \
+           filename.rsplit('.', 1)[1] in ALLOWED_EXTENSIONS
 
 @app.route('/')
 @app.route('/index')
@@ -655,6 +661,7 @@ def OrderPage():
         orderID = request.form['orderID']
         print(orderID)
         sql = "Update ORDER_COMMENT SET isFinished = 1, text = '' WHERE orderID = '%s' " % orderID
+        print(sql)
         cursor.execute(sql)
         msg = "UpdateSucceed"
         return render_template('OrderPage.html', username=username, messages=msg)
@@ -1003,6 +1010,60 @@ def MenuModify():
             print("菜品信息修改失败失败")
             msg = "fail"
         return render_template('MenuModify.html',dishname=dishname, rest=rest, username=username, messages=msg)
+
+@app.route('/MenuAdd',methods=['GET','POST'])
+def MenuAdd():
+    msg = ""
+    rest= ""
+    print(request.method)
+    # print(request.form["action"])
+    if request.form["action"] == "增加菜品":
+        rest = request.form['restaurant']#传递过去商家名
+        return render_template('MenuAdd.html',rest=rest)
+    elif request.form["action"] == "确认增加":
+        dishname = request.form.get('dishname')
+        rest = request.form.get('rest')
+        dishinfo = request.form.get('dishinfo')
+        nutriention = request.form.get('nutriention')
+        price = request.form.get('price')
+        f = request.files['imagesrc']
+        print(f)
+        isSpecialty = int(request.form.get('isSpecialty'))
+        if f and allowed_file(f.filename):
+            filename = secure_filename(f.filename)
+            f.save('static/images/' + filename)
+        imgsrc = 'static/images/' + filename
+        db = MySQLdb.connect("localhost", "root", "", "appDB", charset='utf8')
+
+        cursor = db.cursor()
+        try:
+            cursor.execute("use appDB")
+        except:
+            print("Error: unable to use database!")
+        sql1 = "SELECT * from DISHES where dishname = '{}' ".format(dishname)
+        cursor.execute(sql1)
+        db.commit()
+        res1 = cursor.fetchall()
+        num = 0
+        for row in res1:
+            num = num + 1
+        # 如果已经存在该商家
+        if num == 1:
+            print("失败！该菜品已经添加过！")
+            msg = "fail1"
+        else:
+            sql2 = "insert into DISHES  values ('{}', '{}','{}', '{}',{}, {},'{}', {}) ".format(dishname,rest,dishinfo,nutriention,price,0,imgsrc,isSpecialty)
+            print(sql2)
+            try:
+                cursor.execute(sql2)
+                db.commit()
+                print("菜品添加成功")
+                msg = "done"
+            except ValueError as e:
+                print("--->", e)
+                print("菜品添加失败")
+                msg = "fail"
+        return render_template('MenuAdd.html', messages=msg, username=username)
 
 
 
