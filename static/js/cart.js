@@ -25,7 +25,7 @@ window.onload = function () {
     var foot = document.getElementById('foot');
 
     // 更新总数和总价格，已选浮层
-    function getTotal() {
+    function getTotal(tr) {
         var seleted = 0;
         var price = 0;
         var HTMLstr = '';
@@ -78,7 +78,7 @@ window.onload = function () {
                     checkAllInputs[i].checked = false;
                 }
             }
-            getTotal();//选完更新总计
+            getTotal(this);//选完更新总计
         }
     }
 
@@ -128,7 +128,7 @@ window.onload = function () {
                     }
                     break;
             }
-            getTotal();
+            getTotal(this);
         }
         // 给数目输入框绑定keyup事件
         tr[i].getElementsByTagName('input')[1].onkeyup = function () {
@@ -140,7 +140,7 @@ window.onload = function () {
                 this.value = val;
             }
             getSubtotal(this.parentNode.parentNode); //更新小计
-            getTotal(); //更新总数
+            getTotal(this); //更新总数
         }
     }
     // 点击全部删除
@@ -159,7 +159,7 @@ window.onload = function () {
         } else {
             alert('请选择商品！');
         }
-        getTotal(); //更新总数
+        getTotal(this); //更新总数
     }
     // 默认全选
     checkAllInputs[0].checked = true;

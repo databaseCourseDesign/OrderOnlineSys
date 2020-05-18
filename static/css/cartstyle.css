@@ -85,19 +85,19 @@ height:80px;
 margin-right:10px;
 float:left;}
 
-.price1
+.price
 {width:130px;}
 
-.count1
+.count
 {width:30px;}
 
-.count1 .add, .count1 input, .count1 .reduce
+.count .add, .count input, .count .reduce
 {float:left;
 margin-right:-1px;
 position:relative;
 z-index:0;}
 
-.count1 .add, .count1 .reduce
+.count .add, .count .reduce
 {height:23px;
 width:17px;
 border:1px solid #e5e5e5;
@@ -106,7 +106,7 @@ text-align:center;
 line-height:23px;
 color:#444;}
 
-.count1 .add:hover, .count1 .reduce:hover{color:#f50;z-index:3;border-color:#f60;cursor:pointer;}
+.count .add:hover, .count .reduce:hover{color:#f50;z-index:3;border-color:#f60;cursor:pointer;}
 .count input{width:50px;height:15px;line-height:15px;border:1px solid #aaa;color:#343434;text-align:center;padding:4px 0;background-color:#fff;z-index:2;}
 .subtotal{width:150px;color:red;font-weight:bold;}
 .operation span:hover,a:hover{cursor:pointer;color:red;text-decoration:underline;}

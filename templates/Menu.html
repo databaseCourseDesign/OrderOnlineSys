@@ -34,11 +34,14 @@
         <div class="gtco-container">
             <div class="row">
                 <div class="col-sm-4 col-xs-12">
-                    <div id="gtco-logo"><a href="index.html">商家菜单<em>.</em></a></div>
+                    <div id="gtco-logo"><a href="Menu.html">商家菜单<em>.</em></a></div>
                 </div>
                 <div class="col-xs-8 text-right menu-1">
                     <ul>
-                        <li class="has-dropdown">
+                        <li><a href="UserRestList">商家列表</a></li>
+						<li><a href="ResComment">商家评价</a></li>
+						<li><a href="shoppingCart">购物车</a></li>
+						<li class="has-dropdown">
                             <a href="personal">个人中心</a>
                             <ul class="dropdown">
 								<li><a href="ModifyPersonalInfo">修改个人信息</a></li>
@@ -48,8 +51,6 @@
                                 <li><a href="WriteComments">发表评价</a></li>
                             </ul>
 						</li>
-                        <li><a href="shoppingCart">购物车</a></li>
-						<li><a href="UserRestList">商家列表</a></li>
                     </ul>
                 </div>
             </div>
@@ -102,20 +103,14 @@
 							</div>
 						{% endfor %}
 					<!-- TODO -->
-					{% elif messages == "UpdateSucceed" %}
-					<div class="alert alert-success" role="alert">确认收货成功！3秒后自动跳转</div>
-
-					<script language="javascript" type="text/javascript">
-						// 以下方式定时跳转
-						setTimeout("javascript:location.href='OrderPage'", 3000);
-					</script>
 
 					{% elif messages == "none" %}
 						<!-- <p style="text-align: center;"><strong style="font-size: 18px;">您还没有订单哦！</strong></p> -->
-						<div class="alert alert-danger" role="alert">您还没有订单哦！</div>
+						<div class="alert alert-danger" role="alert">店铺信息尚不完善！</div>
 					{% endif %}
 
 				</div>
+
 
 			</div>
 		</div>

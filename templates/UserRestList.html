@@ -67,7 +67,7 @@
 				<div class="col-lg-12 col-md-4 col-sm-6">
 					{% if messages == "done" %}
 						{% for item in result %}
-							<a href="Menu" class="fh5co-card-item">
+							<div class="fh5co-card-item">
 								<figure>
 									<div class="overlay"><i class="ti-plus"></i></div>
 									<img src={{item[4]}}  alt="Image" class="img-responsive">
@@ -83,9 +83,15 @@
 									<h3 class="cursive-font primary-color">ADDRESS：{{ item[2] }}</h3>
 									<h3 class="cursive-font primary-color">PHONE：{{ item[3] }}</h3>
 								</div>
-
-
-							</a>
+								<form action ="{{url_for('menu')}}" method = "POST">
+									<input name = "restaurant" value="{{item[0]}}" style = "display:none;">
+									<input type = "submit" name = "action" value = "进入本店" style="margin: 15px; font-size: 16px; float: right; color: #FBB448; background-color: white; font-size: 16px; outline:none; border: 1px solid #FBB448; border-radius: 10px;">
+								</form>
+								<form action ="{{url_for('resComment')}}" method = "POST">
+									<input name = "restaurant" value="{{item[0]}}" style = "display:none;">
+									<input type = "submit" name = "action" value = "查看评价" style="margin: 15px; font-size: 16px; float: right; color: #FBB448; background-color: white; font-size: 16px; outline:none; border: 1px solid #FBB448; border-radius: 10px;">
+								</form>
+							</div>
 							<!-- </div> -->
 						{% endfor %}
 

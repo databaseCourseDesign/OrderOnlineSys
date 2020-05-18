@@ -14,7 +14,6 @@ app = Flask(__name__)
 username = "TJU"
 # TODO: username变量的赋值  方法1：全局变量实现，随登录进行修改  方法2：给每个页面传递username
 userRole = "CUSTOMER"
-restaurant = "res1"
 notFinishedNum = 0
 # 上传文件要储存的目录
 UPLOAD_FOLDER = '/static/images/'
@@ -339,7 +338,10 @@ def UserRestListPage():
 @app.route('/Menu',methods=['GET', 'POST'])
 def menu():
     msg = ""
-    if request.method == 'GET':
+    global restaurant
+    if request.form["action"] == "进入本店":
+        restaurant = request.form['restaurant']
+        print(restaurant)
         msg = ""
         # 连接数据库，默认数据库用户名root，密码空
         db = MySQLdb.connect("localhost", "root", "", "appDB", charset='utf8')
@@ -349,7 +351,7 @@ def menu():
         except:
             print("Error: unable to use database!")
         # 查询
-        sql = "SELECT * FROM DISHES WHERE restaurant = 'res1'"
+        sql = "SELECT * FROM DISHES WHERE restaurant = '%s'" % restaurant
         cursor.execute(sql)
         res = cursor.fetchall()
         # print(res)
@@ -371,7 +373,7 @@ def menu():
         except:
             print("Error: unable to use database!")
 
-        sql = "SELECT * FROM DISHES WHERE restaurant = 'res1' AND isSpecialty = 1"
+        sql = "SELECT * FROM DISHES WHERE restaurant = '%s' AND isSpecialty = 1" % restaurant
         cursor.execute(sql)
         res = cursor.fetchall()
         print(res)
@@ -392,7 +394,7 @@ def menu():
         except:
             print("Error: unable to use database!")
 
-        sql = "SELECT * FROM DISHES WHERE restaurant = 'res1' Order BY sales DESC"
+        sql = "SELECT * FROM DISHES WHERE restaurant = '%s' Order BY sales DESC" % restaurant
         cursor.execute(sql)
         res = cursor.fetchall()
         print(res)
@@ -413,7 +415,7 @@ def menu():
         except:
             print("Error: unable to use database!")
 
-        sql = "SELECT * FROM DISHES WHERE restaurant = 'res1' Order BY price DESC"
+        sql = "SELECT * FROM DISHES WHERE restaurant = '%s' Order BY price DESC" % restaurant
         cursor.execute(sql)
         res = cursor.fetchall()
         print(res)
@@ -426,6 +428,39 @@ def menu():
             print("NULL")
             msg = "none"
         return render_template('Menu.html', username=username, RESTAURANT=restaurant, messages=msg)
+
+#查看商家评论
+@app.route('/ResComment')
+def resComment():
+    msg = ""
+    global restaurant
+    if request.form["action"] == "查看评价":
+        restaurant = request.form['restaurant']
+        print(restaurant)
+        msg = ""
+        # 连接数据库，默认数据库用户名root，密码空
+        db = MySQLdb.connect("localhost", "root", "", "appDB", charset='utf8')
+        cursor = db.cursor()
+        try:
+            cursor.execute("use appDB")
+        except:
+            print("Error: unable to use database!")
+        # 查询
+        sql = "SELECT * FROM ORDER_COMMENT WHERE restaurant = '%s' AND isFinished = 1 AND text <> '' "% restaurant
+        cursor.execute(sql)
+        res = cursor.fetchall()
+        # print(res)
+        # print(len(res))
+        if len(res) != 0:
+            msg = "done"
+            print(msg)
+            print(len(res))
+            return render_template('ResComment.html', username=username, RESTAURANT=restaurant, result=res, messages=msg)
+        else:
+            print("NULL")
+            msg = "none"
+            return render_template('ResComment.html', username=username, RESTAURANT=restaurant, messages=msg)
+
 
 
 @app.route('/shoppingCart',methods=['GET', 'POST'])
@@ -449,11 +484,11 @@ def shoppingCartPage():
         if len(res) != 0:
             msg = "done"
             print(msg)
-            return render_template('shoppingCart.html')
+            return render_template('shoppingCart.html',username=username, result=res,)
         else:
             print("NULL")
             msg = "none"
-            return render_template('shoppingCart.html')
+        return render_template('shoppingCart.html')
     elif request.method == 'POST':
         db = MySQLdb.connect("localhost", "root", "", "appDB", charset='utf8')
         cursor = db.cursor()
@@ -469,11 +504,11 @@ def shoppingCartPage():
         if len(res) != 0:
             msg = "done"
             print(msg)
-            return render_template('shoppingCart.html')
+            return render_template('shoppingCart.html',username=username, result=res)
         else:
             print("NULL")
             msg = "none"
-            return render_template('shoppingCart.html')
+        return render_template('shoppingCart.html',username=username)
 
 
 
@@ -671,6 +706,7 @@ def OrderPage():
 def MyCommentsPage():
     msg = ""
     global notFinishedNum
+
     if request.method == 'GET':
         msg = ""
         # 连接数据库，默认数据库用户名root，密码空

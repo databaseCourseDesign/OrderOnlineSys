@@ -23,47 +23,20 @@
       </tr>
     </thead>
     <tbody>
-
-      <tr>
-        <td class="checkbox"><input class="check-one check" type="checkbox"/></td>
-        <td class="goods"><span>Casio/卡西欧 EX-TR350</span></td>
-        <td class="price1">5999.88</td>
-        <td class="count1"><span class="reduce"></span>
-          <input class="count1-input" type="text" value="1"/>
-          <span class="add">+</span></td>
-        <td class="subtotal">5999.88</td>
-        <td class="operation"><span class="delete">删除</span></td>
-      </tr>
-      <tr>
-        <td class="checkbox"><input class="check-one check" type="checkbox"/></td>
-        <td class="goods"><span>Canon/佳能 PowerShot SX50 HS</span></td>
-        <td class="price1">3888.50</td>
-        <td class="count1"><span class="reduce"></span>
-          <input class="count1-input" type="text" value="1"/>
-          <span class="add">+</span></td>
-        <td class="subtotal">3888.50</td>
-        <td class="operation"><span class="delete">删除</span></td>
-      </tr>
-      <tr>
-        <td class="checkbox"><input class="check-one check" type="checkbox"/></td>
-        <td class="goods"><span>Sony/索尼 DSC-WX300</span></td>
-        <td class="price1">1428.50</td>
-        <td class="count1"><span class="reduce"></span>
-          <input class="count1-input" type="text" value="1"/>
-          <span class="add">+</span></td>
-        <td class="subtotal">1428.50</td>
-        <td class="operation"><span class="delete">删除</span></td>
-      </tr>
-      <tr>
-        <td class="checkbox"><input class="check-one check" type="checkbox"/></td>
-        <td class="goods"><span>Fujifilm/富士 instax mini 25</span></td>
-        <td class="price1">640.60</td>
-        <td class="count1"><span class="reduce"></span>
-          <input class="count1-input" type="text" value="1"/>
-          <span class="add">+</span></td>
-        <td class="subtotal">640.60</td>
-        <td class="operation"><span class="delete">删除</span></td>
-      </tr>
+      {% if messages == "done" %}
+		{% for item in result %}
+          <tr>
+            <td class="checkbox"><input class="check-one check" type="checkbox"/></td>
+            <td class="goods"><span>{{ item[2] }}</span></td>
+            <td class="price">{{ item[3] }}</td>
+            <td class="count"><span class="reduce"></span>
+              <input class="count-input" type="text" value="1"/>
+              <span class="add">+</span></td>
+            <td class="subtotal">{{ item[3] }}</td>
+            <td class="operation"><span class="delete">删除</span></td>
+          </tr>
+        {% endfor %}
+      {% endif %}
     </tbody>
   </table>
   <div class="foot" id="foot">
