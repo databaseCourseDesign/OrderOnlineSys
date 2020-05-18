@@ -231,27 +231,25 @@ def adminRestListPage():
             cursor.execute("use appDB")
         except:
             print("Error: unable to use database!")
-        # TODO: 点击移除后暂时移除，能正确显示，但数据库里没有删掉
+        # TODO: 点击移除后显示移除成功，但数据库里没有删掉
         # 删除dishes的
-        sql1 = "DELETE FROM DISHES WHERE restaurant = '{}';".format(RESTName)
+        sql1 = "DELETE FROM DISHES WHERE restaurant = '{}'".format(RESTName)
         cursor.execute(sql1)
-        print(sql1)
-        print("从菜品表删除")
+        db.commit()
         # 删除订单表里的
-        sql2 = "DELETE FROM ORDER_COMMENT WHERE restaurant = '{}';".format(RESTName)
+        sql2 = "DELETE FROM ORDER_COMMENT WHERE restaurant = '{}'".format(RESTName)
         cursor.execute(sql2)
-        print("从ORDER_COMMENT删除")
-        print(sql2)
+        db.commit()
         # 删除shoppingCart的
-        sql3 = "DELETE FROM shoppingCart WHERE restaurant = '{}';".format(RESTName)
+        sql3 = "DELETE FROM shoppingCart WHERE restaurant = '{}'".format(RESTName)
         cursor.execute(sql3)
-        print("从shoppingCart删除")
-        print(sql3)
+        db.commit()
         # 删除restaurant的
-        sql4 = "DELETE FROM RESTAURANT WHERE username = '{}';".format(RESTName)
+        sql4 = "DELETE FROM RESTAURANT WHERE username = '{}'".format(RESTName)
         cursor.execute(sql4)
+        db.commit()
         print(sql4)
-        print("从商家表删除")
+
         msg = "delete"
         print(msg)
 

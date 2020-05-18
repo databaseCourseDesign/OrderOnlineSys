@@ -45,29 +45,13 @@
 						<div class="col-xs-8 text-right menu-1">
 							<ul>
 								<li><a href="adminCommentList">查看评论</a></li>
-								<li><a href="index">返回首页</a></li>
+								<li><a href="index">退出登录</a></li>
                     		</ul>
                 		</div>
             		</div>
         		</div>
 			</nav>
 		</div>
-<!--		<nav class="navbar navbar-default navbar-fixed-top" role="navigation">-->
-<!--			<div class="container-fluid">-->
-<!--				<div class="navbar-header">-->
-<!--					<ul class="nav navbar-nav">-->
-<!--						<li><a href="adminRestList">商家列表</a></li>-->
-<!--					</ul>-->
-<!--				</div>-->
-<!--				<div class="collapse navbar-collapse navbar-right" id="navbar-collapse">-->
-<!--					<ul class="nav navbar-nav">-->
-<!--						<li><a href="index">返回首页</a></li>-->
-<!--						<li><a href="adminCommentList">查看评论</a></li>&nbsp;-->
-<!--					</ul>-->
-<!--				</div>-->
-<!--			</div>-->
-
-<!--		</nav>-->
 
 	<div class="gtco-section">
 		<div class="gtco-container">
@@ -78,14 +62,14 @@
 				</div>
 			</div>
 			<div class="row">
-				<div class="col-lg-6 col-md-6 col-sm-6">
-					{% if messages == "done" %}
-						{% for item in result %}
+				{% if messages == "done" %}
+					{% for item in result %}
+						<div class="col-lg-6 col-md-6 col-sm-6">
 							<div class="fh5co-card-item">
-								<a href="static/images/res_1.jpg" class="fh5co-card-item image-popup">
+								<a href="{{ item[4] }}" class="fh5co-card-item image-popup">
 								<figure>
 									<div class="overlay"><i class="ti-plus"></i></div>
-									<img src="static/images/res_1.jpg" alt="Image" class="img-responsive">
+									<img src="{{ item[4] }}" alt="Image" class="img-responsive">
 								</figure>
 								</a>
 								<div class="col-md-8 col-md-offset-2 text-center gtco-heading">
@@ -97,18 +81,16 @@
 									<input name="RESTName" value="{{ item[0] }}" style="display: none;">
 									<input type="submit" name="action" value="移除" style="margin: 8px; font-size: 20px; float: right; color: #FBB448; background-color: white; font-size: 16px; outline:none; border: 1px solid #FBB448; border-radius: 10px;">
 								</form>
-							</div>>
-
-							<!-- </div> -->
+							</div>
+						</div>
 						{% endfor %}
+				{% elif messages == "none" %}
+					<div class="alert alert-danger" role="alert">暂无商家</div>
+				{% elif messages == "delete" %}
+					<script>alert("移除成功！")</script>
+					<script type='text/javascript'>window.location.href='adminRestList'</script>
+				{% endif %}
 
-					{% elif messages == "none" %}
-						<div class="alert alert-danger" role="alert">暂无商家</div>
-					{% elif messages == "delete" %}
-						<script>alert("移除成功！")</script>
-					{% endif %}
-
-				</div>
 
 			</div>
 
