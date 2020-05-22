@@ -1001,6 +1001,7 @@ def MerchantMenu():
 @app.route('/MenuModify', methods=['GET', 'POST'])
 def MenuModify():
     msg = ""
+
     print(request.method)
     # print(request.form["action"])
     if request.form["action"] == "修改菜品信息":
@@ -1010,10 +1011,12 @@ def MenuModify():
         nutriention = request.form.get('nutriention')
         price = request.form.get('price')
         isSpecialty = request.form.get('isSpecialty')
+        #imagesrc = request.form['imagesrc']
         print(dishname)
         print(isSpecialty)
         print(type(isSpecialty))
-
+        
+		
         return render_template('MenuModify.html', dishname=dishname, rest=rest, dishinfo=dishinfo, nutriention=nutriention, price=price, username=username, messages=msg,isSpecialty=isSpecialty)
     elif request.form["action"] == "提交修改":
 
@@ -1024,6 +1027,17 @@ def MenuModify():
         nutriention = request.form.get('nutriention')
         price = request.form.get('price')
         isSpecialty = int(request.form.get('isSpecialty'))
+        f = request.files['imagesrc']
+        filename = ''
+		
+        if f !='' and allowed_file(f.filename):
+            filename = secure_filename(f.filename)
+			
+        if filename != '':
+            f.save('static/images/' + filename)
+        imgsrc = 'static/images/' + filename
+		
+		
         print(isSpecialty)
         print(type(isSpecialty))
         db = MySQLdb.connect("localhost", "root", "", "appDB", charset='utf8')
@@ -1032,8 +1046,13 @@ def MenuModify():
             cursor.execute("use appDB")
         except:
             print("Error: unable to use database!")
-        sql = "Update dishes SET dishinfo = '{}', nutriention = '{}', price = {} , isSpecialty = {} where dishname = '{}' and restaurant = '{}'".format(dishinfo,nutriention,price,isSpecialty,dishname,rest)
+			
+        if filename == '':
+            sql = "Update dishes SET dishinfo = '{}', nutriention = '{}', price = {} , isSpecialty = {} where dishname = '{}' and restaurant = '{}'".format(dishinfo,nutriention,price,isSpecialty,dishname,rest)
+        else:
+            sql = "Update dishes SET dishinfo = '{}', nutriention = '{}', price = {} ,imagesrc = '{}', isSpecialty = {} where dishname = '{}' and restaurant = '{}'".format(dishinfo,nutriention,price,imgsrc,isSpecialty,dishname,rest)
         print(sql)
+		
         try:
             cursor.execute(sql)
             db.commit()
@@ -1044,7 +1063,6 @@ def MenuModify():
             print("菜品信息修改失败失败")
             msg = "fail"
         return render_template('MenuModify.html',dishname=dishname, rest=rest, username=username, messages=msg)
-
 @app.route('/MenuAdd',methods=['GET','POST'])
 def MenuAdd():
     msg = ""
@@ -1124,6 +1142,19 @@ def MerchantModifyPerInfo():
         # username = request.form['username']
         address = request.form['address']
         phonenum = request.form['phonenum']
+		
+        f = request.files['imagesrc']
+        filename = ''
+		
+        if f !='' and allowed_file(f.filename):
+            filename = secure_filename(f.filename)
+			
+        if filename != '':
+            f.save('static/images/' + filename)
+        imgsrc = 'static/images/' + filename
+		
+		
+		
         # 连接数据库，默认数据库用户名root，密码空
         db = MySQLdb.connect("localhost", "root", "", "appDB", charset='utf8')
         cursor = db.cursor()
@@ -1131,7 +1162,12 @@ def MerchantModifyPerInfo():
             cursor.execute("use appDB")
         except:
             print("Error: unable to use database!")
-        sql = "Update {} SET address = '{}', phone = '{}' where username = '{}'".format(userRole, address, phonenum,
+			
+        if filename == '':	
+            sql = "Update {} SET address = '{}', phone = '{}' where username = '{}'".format(userRole, address, phonenum,
+                                                                                        username)
+        else:
+            sql = "Update {} SET address = '{}', phone = '{}',imageRes = '{}' where username = '{}'".format(userRole, address, phonenum, imgsrc,
                                                                                         username)
         try:
             cursor.execute(sql)
