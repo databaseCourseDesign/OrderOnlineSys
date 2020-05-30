@@ -1,0 +1,53 @@
+[
+	[
+		{
+			"Query":"lan",
+			"Results":[
+				{
+					"Type":"AS",
+					"Suggests":[
+						{
+							"Txt":"Nike 耐克官方 ZOOM KOBE 男子篮球鞋 "
+						},
+						{
+							"Txt":"adidas Regulate  篮球鞋 "
+						},
+						{
+							"Txt":"李宁2016新款男子音速3高帮反弹篮球鞋"
+						},
+						{
+							"Txt":"李宁2016新款男子减震CBA魅影篮球鞋"
+						},
+						{
+							"Txt":"李宁男子专业篮球鞋CBA球迷空袭"
+						},
+						{
+							"Txt":"adidas罗斯系列场上款篮球鞋"
+						},
+						{
+							"Txt":"adidas Boost 罗斯系列篮球鞋 JXO25 "
+						},
+						{
+							"Txt":"adidas场上款篮球鞋 D Rose 7 Primeknit"
+						}
+					]
+				}
+			]
+		}
+	],
+	[
+		{
+			"Query":"yin",
+			"Results":[
+				{
+					"Type":"AS",
+					"Suggests":[
+						{
+							"Txt":"李宁2016新款男子音速3高帮反弹篮球鞋"
+						}
+					]
+				}
+			]
+		}
+	]
+]
