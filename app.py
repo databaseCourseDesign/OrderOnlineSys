@@ -461,6 +461,36 @@ def resComment():
             msg = "none"
         return render_template('ResComment.html', username=username, RESTAURANT=restaurant, messages=msg)
 
+#商家查看评论
+@app.route('/ResCommentList', methods=['GET', 'POST'])
+def ResCommentList():
+    msg = ""
+    # 连接数据库，默认数据库用户名root，密码空
+    restaurant=username
+    print(restaurant)
+    db = MySQLdb.connect("localhost", "root", "", "appDB", charset='utf8')
+    cursor = db.cursor()
+    try:
+        cursor.execute("use appDB")
+    except:
+        print("Error: unable to use database!")
+    # 查询
+    sql = "SELECT * FROM ORDER_COMMENT WHERE restaurant = '%s' AND isFinished = 1 AND text <> '' " % restaurant
+    cursor.execute(sql)
+    res = cursor.fetchall()
+    # print(res)
+    # print(len(res))
+    if len(res) != 0:
+        msg = "done"
+        print(msg)
+        print(len(res))
+        return render_template('ResCommentList.html', username=username, RESTAURANT=restaurant, result=res,
+                                   messages=msg)
+    else:
+        print("NULL")
+        msg = "none"
+    return render_template('ResCommentList.html', username=username, RESTAURANT=restaurant, messages=msg)
+
 # 购物车
 @app.route('/myOrder',methods=['GET', 'POST'])
 def shoppingCartPage():
@@ -702,6 +732,8 @@ def OrderPage():
         sql = "Update ORDER_COMMENT SET isFinished = 1, text = '' WHERE orderID = '%s' " % orderID
         print(sql)
         cursor.execute(sql)
+        res = cursor.fetchall()
+        print(res)
         msg = "UpdateSucceed"
         return render_template('OrderPage.html', username=username, messages=msg)
     else:
@@ -1125,7 +1157,6 @@ def MenuAdd():
 
 
 
-
 @app.route('/MerchantIndex')
 
 def Merchantindexpage():
@@ -1221,7 +1252,7 @@ def MerModifyPassword():
             msg = "not equal"
             return render_template('MerchantModifyPwd.html', messages=msg, username=username)
 
-
+#商家查看订单
 @app.route('/MerchantOrderPage', methods=['GET', 'POST'])
 def MerchantOrderPage():
     msg = ""
