@@ -395,7 +395,7 @@ input {
 }
 /* line 97, ../sass/screen.scss */
 .nav-left .nav-msg::before {
-  content: url("../images/icons/message.png");
+  content: url("../static/images/icons/message.png");
   margin-right: 4px;
 }
 
@@ -441,12 +441,12 @@ input {
 
 /* line 151, ../sass/screen.scss */
 .nav-collection::before {
-  content: url("../images/icons/star_gray.png");
+  content: url("../static/images/icons/star_gray.png");
   margin-right: 5px;
 }
 /* line 160, ../sass/screen.scss */
 .nav-collection:hover::before {
-  content: url("../images/icons/star-orange.png");
+  content: url("../static/images/icons/star-orange.png");
 }
 
 /* line 180, ../sass/screen.scss */
@@ -462,7 +462,7 @@ input {
 }
 /* line 188, ../sass/screen.scss */
 .header a::before {
-  content: url("../images/icons/taobao-icon.png");
+  content: url("../static/images/icons/taobao-icon.png");
 }
 
 /* line 196, ../sass/screen.scss */
@@ -815,12 +815,12 @@ input {
 /* line 486, ../sass/screen.scss */
 .commodityInfo .td-chk {
   width: 35px;
-  min-height: 79px;
+  min-height: 60.2px;
   padding-left: 10px;
 }
 /* line 492, ../sass/screen.scss */
 .commodityInfo .td-item {
-  min-height: 79px;
+  min-height: 60.2px;
 }
 /* line 496, ../sass/screen.scss */
 .commodityInfo .boyShoes {
@@ -868,7 +868,7 @@ input {
 .commodityInfo .item-info {
   margin: -3px 0 0 91px;
   padding-right: 15px;
-  min-height: 79px;
+  min-height: 60.2px;
 }
 /* line 531, ../sass/screen.scss */
 .commodityInfo .item-info a {
@@ -909,7 +909,7 @@ input {
 }
 /* line 557, ../sass/screen.scss */
 .commodityInfo .td-info {
-  min-height: 79px;
+  min-height: 60.2px;
 }
 /* line 561, ../sass/screen.scss */
 .commodityInfo .td-info-msg {
@@ -924,7 +924,7 @@ input {
 }
 /* line 570, ../sass/screen.scss */
 .commodityInfo .td-price {
-  min-height: 79px;
+  min-height: 60.2px;
 }
 /* line 573, ../sass/screen.scss */
 .commodityInfo .td-price .non-discount {
@@ -992,7 +992,7 @@ input {
 }
 /* line 629, ../sass/screen.scss */
 .commodityInfo .td-amount {
-  min-height: 79px;
+  min-height: 60.2px;
 }
 /* line 633, ../sass/screen.scss */
 .commodityInfo .item-amount {
@@ -1046,7 +1046,7 @@ input {
 }
 /* line 677, ../sass/screen.scss */
 .commodityInfo .td-sum {
-  min-height: 79px;
+  min-height: 60.2px;
   color: #f40;
   font-weight: bold;
 }
@@ -1061,7 +1061,7 @@ input {
 }
 /* line 690, ../sass/screen.scss */
 .commodityInfo .td-operation {
-  min-height: 79px;
+  min-height: 60.2px;
 }
 /* line 693, ../sass/screen.scss */
 .commodityInfo .td-operation a {

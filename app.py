@@ -430,7 +430,7 @@ def menu():
         return render_template('Menu.html', username=username, RESTAURANT=restaurant, messages=msg)
 
 #查看商家评论
-@app.route('/ResComment')
+@app.route('/ResComment',methods=['GET','POST'])
 def resComment():
     msg = ""
     global restaurant
@@ -459,44 +459,20 @@ def resComment():
         else:
             print("NULL")
             msg = "none"
-            return render_template('ResComment.html', username=username, RESTAURANT=restaurant, messages=msg)
+        return render_template('ResComment.html', username=username, RESTAURANT=restaurant, messages=msg)
 
-
-
-@app.route('/shoppingCart',methods=['GET', 'POST'])
+# 购物车
+@app.route('/myOrder',methods=['GET', 'POST'])
 def shoppingCartPage():
     if request.method == 'GET':
-        msg = ""
-        # 连接数据库，默认数据库用户名root，密码空
-        db = MySQLdb.connect("localhost", "root", "", "appdb", charset='utf8')
-        cursor = db.cursor()
-        try:
-            cursor.execute("use appDB")
-        except:
-            print("Error: unable to use database!")
-
-        # 查询
-        sql = "SELECT * FROM shoppingcart"
-        cursor.execute(sql)
-        res = cursor.fetchall()
-        # print(res)
-        # print(len(res))
-        if len(res) != 0:
-            msg = "done"
-            print(msg)
-            return render_template('shoppingCart.html',username=username, result=res,)
-        else:
-            print("NULL")
-            msg = "none"
-        return render_template('shoppingCart.html')
-    elif request.method == 'POST':
         db = MySQLdb.connect("localhost", "root", "", "appDB", charset='utf8')
         cursor = db.cursor()
         try:
             cursor.execute("use appDB")
         except:
             print("Error: unable to use database!")
-        sql = "SELECT * FROM shoppingcart"
+        # 查询
+        sql = "SELECT * FROM SHOPPINGCART"
         cursor.execute(sql)
         res = cursor.fetchall()
         # print(res)
@@ -504,11 +480,41 @@ def shoppingCartPage():
         if len(res) != 0:
             msg = "done"
             print(msg)
-            return render_template('shoppingCart.html',username=username, result=res)
+            print(len(res))
+            return render_template('myOrder.html', username=username, result=res, messages=msg)
         else:
             print("NULL")
             msg = "none"
-        return render_template('shoppingCart.html',username=username)
+            return render_template('myOrder.html', username=username, messages=msg)
+    elif request.form["action"] == "加入购物车":
+        restuarant = request.form['restaurant']
+        dishname = request.form['dishname']
+        price = request.form['price']
+        img_res = request.form['img_res']
+        db = MySQLdb.connect("localhost", "root", "", "appDB", charset='utf8')
+        cursor = db.cursor()
+        try:
+            cursor.execute("use appDB")
+        except:
+            print("Error: unable to use database!")
+        sql1 = "insert into SHOPPINGCART  values ('{}','{}','{}','{}','{}') ".format(username,restuarant,dishname,price,img_res)
+        cursor.execute(sql1)
+        res1 = cursor.fetchall()
+        print(len(res1))
+        sql = "SELECT * FROM SHOPPINGCART"
+        cursor.execute(sql)
+        res = cursor.fetchall()
+        # print(res)
+        # print(len(res))
+        if len(res) != 0:
+            msg = "done"
+            print(msg)
+            print(len(res))
+            return render_template('myOrder.html', username=username, result=res, messages=msg)
+        else:
+            print("NULL")
+            msg = "none"
+        return render_template('myOrder.html', username=username, messages=msg)
 
 
 
