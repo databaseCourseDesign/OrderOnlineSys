@@ -64,20 +64,16 @@
 				</div>
 			</div>
 			<div class="row">
-				<div class="col-lg-12 col-md-4 col-sm-6">
 					{% if messages == "done" %}
 						{% for item in result %}
+					<div class="col-lg-6 col-md-6 col-sm-6">
 							<div class="fh5co-card-item">
+								<a href="{{ item[4] }}" class="fh5co-card-item image-popup">
 								<figure>
 									<div class="overlay"><i class="ti-plus"></i></div>
 									<img src={{item[4]}}  alt="Image" class="img-responsive">
 								</figure>
-<!--								<div class="fh5co-text" style="padding: 20px; float: left; margin-left: 100px;">-->
-<!--									<i class="ti-quote-left" style="font-size: 20px;"></i>-->
-<!--								</div>-->
-<!--								<div class="fh5co-text" style="padding: 20px; float: right; margin-right: 20px;">-->
-<!--									<i class="ti-quote-right" style="font-size: 20px;"></i>-->
-<!--								</div>-->
+								</a>
 								<div class="col-md-8 col-md-offset-2 text-center gtco-heading">
 									<h2 class="cursive-font primary-color">{{ item[0] }}</h2>
 									<h3 class="cursive-font primary-color">ADDRESS：{{ item[2] }}</h3>
@@ -92,15 +88,13 @@
 									<input type = "submit" name = "action" value = "查看评价" style="margin: 15px; font-size: 16px; float: right; color: #FBB448; background-color: white; font-size: 16px; outline:none; border: 1px solid #FBB448; border-radius: 10px;">
 								</form>
 							</div>
-							<!-- </div> -->
+					</div>
 						{% endfor %}
-
 					{% elif messages == "none" %}
 						<!-- <p style="text-align: center;"><strong style="font-size: 18px;">您还没有订单哦！</strong></p> -->
 						<div class="alert alert-danger" role="alert">暂无商家</div>
 					{% endif %}
 
-				</div>
 
 			</div>
 
