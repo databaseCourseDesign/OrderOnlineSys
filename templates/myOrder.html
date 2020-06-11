@@ -60,7 +60,7 @@
 						<strong class='price'>￥<!--
 							--><span class='total-symbol'>0.00</span>
 						</strong>
-						<a href="#" class="submit-btn btn-common">结算</a>
+						<button onclick="confirm()" class="submit-btn btn-common">结算</button>
 					</div>
 					<div class="wrap-line">
 					</div>
@@ -264,7 +264,8 @@
 						--><em class='total-sum'>0.00</em>
 					</div>
 					<div class="btn-area">
-						<a href="#" class='btn-common' id='btn-sum'>结 算</a>
+						<!-- <a href="#" class='btn-common' id='btn-sum'>结 算</a> -->
+						<a onclick="confirm()" class="btn-common" id='btn-sum'>结  算</a>
 					</div>
 				</div>
 			</div>
@@ -284,6 +285,11 @@
 				</p>
 			</div>
 		</div>
+	</script>
+	<script>
+		function confirm() {
+			alert('提交订单成功!');
+		}
 	</script>
 	<script src='static/js/myOrder.js'></script>
 </body>
