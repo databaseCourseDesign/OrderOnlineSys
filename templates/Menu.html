@@ -112,6 +112,8 @@
 					{% elif messages == "none" %}
 						<!-- <p style="text-align: center;"><strong style="font-size: 18px;">您还没有订单哦！</strong></p> -->
 						<div class="alert alert-danger" role="alert">店铺信息尚不完善！</div>
+					{% elif messages == "fail" %}
+						<script>alert("该菜品已经存在于购物车中！")</script>
 					{% endif %}
 
 				</div>

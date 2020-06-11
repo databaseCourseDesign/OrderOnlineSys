@@ -748,6 +748,18 @@ def OrderPage():
         print(res)
         msg = "UpdateSucceed"
         return render_template('OrderPage.html', username=username, messages=msg)
+    elif request.form["action"] == "结算":
+        restuarant = request.form['restaurant']
+        dishname = request.form['dishname']
+        price = request.form['price']
+        img_res = request.form['img_res']
+        db = MySQLdb.connect("localhost", "root", "", "appDB", charset='utf8')
+        cursor = db.cursor()
+        try:
+            cursor.execute("use appDB")
+        except:
+            print("Error: unable to use database!")
+
     else:
         return render_template('OrderPage.html', username=username, messages=msg)
 

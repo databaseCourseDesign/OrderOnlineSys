@@ -263,10 +263,15 @@
 						<span class='moneySym'>￥</span><!--
 						--><em class='total-sum'>0.00</em>
 					</div>
-					<div class="btn-area">
+					<form action="{{ url_for('OrderPage') }}" method="POST">
+						<div class="btn-area">
 						<!-- <a href="#" class='btn-common' id='btn-sum'>结 算</a> -->
-						<a onclick="confirm()" class="btn-common" id='btn-sum'>结  算</a>
-					</div>
+							<a onclick="confirm()" class="btn-common" id='btn-sum'>结  算</a>
+							<input type="submit" name="action" value="结算" style="diaplay: none;">
+						</div>
+					</form>
+
+
 				</div>
 			</div>
 		</div>
