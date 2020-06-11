@@ -729,7 +729,19 @@ def OrderPage():
         print("用户要确认收货啦")
         orderID = request.form['orderID']
         print(orderID)
-        sql = "Update ORDER_COMMENT SET isFinished = 1, text = '' WHERE orderID = '%s' " % orderID
+        sql1 = "Update ORDER_COMMENT SET isFinished = 1, text = '' WHERE orderID = '%s' " % orderID
+        print(sql1)
+        cursor.execute(sql1)
+        db.commit()
+
+        sql2 = "select * from ORDER_COMMENT WHERE orderID = '%s' " % orderID
+        cursor.execute(sql2)
+        res1 = cursor.fetchone()
+        restaurant = res1[1]
+        dishname = res1[2]
+        print("{} {} 销量+1".format(dishname, restaurant))
+
+        sql = "Update DISHES SET sales = sales+1 WHERE dishname = '{}' AND restaurant = '{}'" .format(dishname, restaurant)
         print(sql)
         cursor.execute(sql)
         res = cursor.fetchall()
