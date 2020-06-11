@@ -244,7 +244,6 @@
 					</div>
 				</div>
 			</div>
-			<form action="{{ url_for('shoppingCartPage') }}" method="POST">
 			<div class="col-md-12" style="font-size: 14px; float: right;">
 				<label for="activities">选择就餐方式</label><span style="margin-left: 30px; font-size: 14px;"></span>
 				<input type="radio" name="mode" value="1" />堂食
@@ -273,8 +272,7 @@
 					<div class="btn-area">
 						<!-- <a href="#" class='btn-common' id='btn-sum'>结 算</a> -->
 							<!-- <a onclick="confirm()" class="btn-common" id='btn-sum'>结  算</a> -->
-						<input type="submit" name="action" value="结算" class='btn-common' style="border: none; width: 90px; height: 52px; color: white; font-size: 18px;">
-					</form>
+						<input type="submit" name="action" value="结算" class='btn-common' id='btn-sum' onclick="confirm()" style="border: none; width: 90px; height: 52px; color: white; font-size: 18px;">
 					</div>
 
 				</div>
