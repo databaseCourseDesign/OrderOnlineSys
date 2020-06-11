@@ -270,7 +270,7 @@ def adminCommentPage():
             print("Error: unable to use database!")
 
         # 查询
-        sql = "SELECT * FROM ORDER_COMMENT WHERE isFinished = 1 and text is not null"
+        sql = "SELECT * FROM ORDER_COMMENT WHERE isFinished = 1 and text <> ''"
         cursor.execute(sql)
         res = cursor.fetchall()
         # print(res)

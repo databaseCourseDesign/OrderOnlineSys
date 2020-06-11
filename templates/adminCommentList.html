@@ -82,12 +82,12 @@
 			<br/><br/>
 			<!-- 展示我的全部订单 -->
 			<div class="row">
-				<div class="col-lg-12 col-md-4 col-sm-6">
+				<div class="col-lg-6 col-md-4 col-sm-6">
 					{% if messages == "done" %}
 						{% for item in result %}
 							<!-- <div class="fh5co-card-item"> -->
 							<div class="fh5co-card-item">
-								<figure class="col-lg-4" style="float: left; position: relative;">
+								<figure class="col-lg-12" style="float: left; position: relative;">
 									<div class="overlay"></div>
 									<img src={{item[8]}} alt="Image" class="img-responsive">
 								</figure>
@@ -97,33 +97,34 @@
 									<p>订单号：{{ item[0] }}</p>
 									<p>菜品：{{ item[2] }}</p>
 									<h4 class="cursive-font primary-color">￥{{ item[13]}}</h4>
+									<p style="font-size: 18px;">
+										<!-- var score = {{ item[11] }}	 -->
+										{% if item[11] == 5 %}
+										评分：<i class="iconfont" style="color: yellow;">&#xf0d5;&#xf0d5;&#xf0d5;&#xf0d5;&#xf0d5;</i> {{ item[11] }}
+										{% elif item[11] == 4 %}
+										评分：<i class="iconfont" style="color: yellow;">&#xf0d5;&#xf0d5;&#xf0d5;&#xf0d5;</i><i class="iconfont" style="color: rgb(155, 155, 139);">&#xf0d5;</i> {{ item[11] }}
+										{% elif item[11] == 3 %}
+										评分：<i class="iconfont" style="color: yellow;">&#xf0d5;&#xf0d5;&#xf0d5;</i><i class="iconfont" style="color: rgb(155, 155, 139);">&#xf0d5;&#xf0d5;</i> {{ item[11] }}
+										{% elif item[11] == 2 %}
+										评分：<i class="iconfont" style="color: yellow;">&#xf0d5;&#xf0d5;</i><i class="iconfont" style="color: rgb(155, 155, 139);">&#xf0d5;&#xf0d5;&#xf0d5;</i> {{ item[11] }}
+										{% elif item[11] == 1 %}
+										评分：<i class="iconfont" style="color: yellow;">&#xf0d5;</i><i class="iconfont" style="color: rgb(155, 155, 139);">&#xf0d5;&#xf0d5;&#xf0d5;&#xf0d5;</i> {{ item[11] }}
+										{% elif item[11] == 0 %}
+										评分：<i class="iconfont" style="color: yellow;"></i><i class="iconfont" style="color: rgb(155, 155, 139);">&#xf0d5;&#xf0d5;&#xf0d5;&#xf0d5;&#xf0d5;</i> {{ item[11] }}
+										{% endif %}
+									</p>
+										<p style="font-size: 18px; width: 500px;">评价：{{ item[10] }}</p>
 								</div>
 
-								<div class="fh5co-text" style="padding: 20px; float: left; margin-left: 100px;">
+								<!-- <div class="fh5co-text" style="padding: 20px; float: left; margin-left: 100px;">
 									<i class="ti-quote-left" style="font-size: 20px;"></i>
-								</div>
-								<div class="fh5co-text" style="padding: 20px; float: left; text-align: left;">
-									<p style="font-size: 18px;">
-									<!-- var score = {{ item[11] }}	 -->
-									{% if item[11] == 5 %}
-									评分：<i class="iconfont" style="color: yellow;">&#xf0d5;&#xf0d5;&#xf0d5;&#xf0d5;&#xf0d5;</i> {{ item[11] }}
-									{% elif item[11] == 4 %}
-									评分：<i class="iconfont" style="color: yellow;">&#xf0d5;&#xf0d5;&#xf0d5;&#xf0d5;</i><i class="iconfont" style="color: rgb(155, 155, 139);">&#xf0d5;</i> {{ item[11] }}
-									{% elif item[11] == 3 %}
-									评分：<i class="iconfont" style="color: yellow;">&#xf0d5;&#xf0d5;&#xf0d5;</i><i class="iconfont" style="color: rgb(155, 155, 139);">&#xf0d5;&#xf0d5;</i> {{ item[11] }}
-									{% elif item[11] == 2 %}
-									评分：<i class="iconfont" style="color: yellow;">&#xf0d5;&#xf0d5;</i><i class="iconfont" style="color: rgb(155, 155, 139);">&#xf0d5;&#xf0d5;&#xf0d5;</i> {{ item[11] }}
-									{% elif item[11] == 1 %}
-									评分：<i class="iconfont" style="color: yellow;">&#xf0d5;</i><i class="iconfont" style="color: rgb(155, 155, 139);">&#xf0d5;&#xf0d5;&#xf0d5;&#xf0d5;</i> {{ item[11] }}
-									{% elif item[11] == 0 %}
-									评分：<i class="iconfont" style="color: yellow;"></i><i class="iconfont" style="color: rgb(155, 155, 139);">&#xf0d5;&#xf0d5;&#xf0d5;&#xf0d5;&#xf0d5;</i> {{ item[11] }}
-									{% endif %}
-								</p>
-									<p style="font-size: 18px; width: 500px;">评价：{{ item[10] }}</p>
-								</div>
-								<div class="fh5co-text" style="padding: 20px; float: right; margin-right: 20px;">
+								</div> -->
+								<!-- <div class="fh5co-text" style="padding: 20px; float: left; text-align: left;">
+									
+								</div> -->
+								<!-- <div class="fh5co-text" style="padding: 20px; float: right; margin-right: 20px;">
 									<i class="ti-quote-right" style="font-size: 20px;"></i>
-								</div>
+								</div> -->
 							</div>
 							<!-- </div> -->
 						{% endfor %}
