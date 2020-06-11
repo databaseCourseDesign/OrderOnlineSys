@@ -244,6 +244,13 @@
 					</div>
 				</div>
 			</div>
+			<form action="{{ url_for('shoppingCartPage') }}" method="POST">
+			<div class="col-md-12" style="font-size: 14px; float: right;">
+				<label for="activities">选择就餐方式</label><span style="margin-left: 30px; font-size: 14px;"></span>
+				<input type="radio" name="mode" value="1" />堂食
+				<input type="radio" name="mode" value="0" />外卖
+				<br>
+			</div>
 			<div class="footer">
 				<div class="all-selected">
 					<input type="checkbox" name='all-selected' id='all-selected' class='allSelected2' autocomplete="off">
@@ -263,14 +270,12 @@
 						<span class='moneySym'>￥</span><!--
 						--><em class='total-sum'>0.00</em>
 					</div>
-					<form action="{{ url_for('OrderPage') }}" method="POST">
-						<div class="btn-area">
+					<div class="btn-area">
 						<!-- <a href="#" class='btn-common' id='btn-sum'>结 算</a> -->
-							<a onclick="confirm()" class="btn-common" id='btn-sum'>结  算</a>
-							<input type="submit" name="action" value="结算" style="diaplay: none;">
-						</div>
+							<!-- <a onclick="confirm()" class="btn-common" id='btn-sum'>结  算</a> -->
+						<input type="submit" name="action" value="结算" class='btn-common' style="border: none; width: 90px; height: 52px; color: white; font-size: 18px;">
 					</form>
-
+					</div>
 
 				</div>
 			</div>

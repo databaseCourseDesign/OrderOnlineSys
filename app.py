@@ -495,6 +495,7 @@ def ResCommentList():
 @app.route('/myOrder',methods=['GET', 'POST'])
 def shoppingCartPage():
     if request.method == 'GET':
+        print("myOrder-->GET")
         db = MySQLdb.connect("localhost", "root", "", "appDB", charset='utf8')
         cursor = db.cursor()
         try:
@@ -517,6 +518,7 @@ def shoppingCartPage():
             msg = "none"
             return render_template('myOrder.html', username=username, messages=msg)
     elif request.form["action"] == "加入购物车":
+        print("myOrder-->加入购物车")
         restuarant = request.form['restaurant']
         dishname = request.form['dishname']
         price = request.form['price']
@@ -546,6 +548,35 @@ def shoppingCartPage():
             msg = "none"
         return render_template('myOrder.html', username=username, messages=msg)
 
+    elif request.form["action"] == "结算":
+        print("结算啦")
+        db = MySQLdb.connect("localhost", "root", "", "appDB", charset='utf8')
+        cursor = db.cursor()
+        try:
+            cursor.execute("use appDB")
+        except:
+            print("Error: unable to use database!")
+        '''
+        这下面
+        '''
+        restuarant = request.form['restaurant']
+        print(restaurant)
+        dishname = request.form['dishname']
+        price = request.form['price']
+        img_res = request.form['img_res']
+        mode = request.form['mode']
+        print("==*==")
+        print(mode)
+
+        if mode == 1:
+            print("堂食")
+
+        else:
+            print("外送")
+        return render_template('index.html')
+    else:
+        print("咋回事")
+        return render_template('index.html')
 
 
 # 个人中心页面
@@ -748,17 +779,6 @@ def OrderPage():
         print(res)
         msg = "UpdateSucceed"
         return render_template('OrderPage.html', username=username, messages=msg)
-    elif request.form["action"] == "结算":
-        restuarant = request.form['restaurant']
-        dishname = request.form['dishname']
-        price = request.form['price']
-        img_res = request.form['img_res']
-        db = MySQLdb.connect("localhost", "root", "", "appDB", charset='utf8')
-        cursor = db.cursor()
-        try:
-            cursor.execute("use appDB")
-        except:
-            print("Error: unable to use database!")
 
     else:
         return render_template('OrderPage.html', username=username, messages=msg)
