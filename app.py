@@ -1034,6 +1034,48 @@ def MerchantMenu():
                 print("菜品删除失败")
                 dmsg = "fail"
             return render_template('MerchantMenu.html', dishname=dishname, rest=rest, dmessages=dmsg)
+        elif request.form["action"] == "按销量排序":
+            db = MySQLdb.connect("localhost", "root", "", "appDB", charset='utf8')
+            cursor = db.cursor()
+            try:
+                cursor.execute("use appDB")
+            except:
+                print("Error: unable to use database!")
+
+            sql = "SELECT * FROM DISHES WHERE restaurant = '%s' Order BY sales DESC" % username
+            cursor.execute(sql)
+            res = cursor.fetchall()
+            print(res)
+            print(len(res))
+            if len(res):
+                msg = "done"
+                print(msg)
+                return render_template('MerchantMenu.html',username=username, result=res, messages=msg)
+            else:
+                print("NULL")
+                msg = "none"
+            return render_template('MerchantMenu.html', username=username, messages=msg)
+        elif request.form["action"] == "按价格排序":
+            db = MySQLdb.connect("localhost", "root", "", "appDB", charset='utf8')
+            cursor = db.cursor()
+            try:
+                cursor.execute("use appDB")
+            except:
+                print("Error: unable to use database!")
+
+            sql = "SELECT * FROM DISHES WHERE restaurant = '%s' Order BY price DESC" % username
+            cursor.execute(sql)
+            res = cursor.fetchall()
+            print(res)
+            print(len(res))
+            if len(res):
+                msg = "done"
+                print(msg)
+                return render_template('MerchantMenu.html', username=username, result=res, messages=msg)
+            else:
+                print("NULL")
+                msg = "none"
+            return render_template('MerchantMenu.html', username=username,messages=msg)
 
 #商家修改菜品信息
 @app.route('/MenuModify', methods=['GET', 'POST'])
