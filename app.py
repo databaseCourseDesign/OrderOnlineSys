@@ -41,6 +41,8 @@ def registerPage():
     if request.method == 'POST':
         username = request.form.get('username')
         password = request.form.get('password')
+        phone = request.form.get('phone')
+        addr = request.form.get('addr')
         userRole = request.form.get('userRole')
         print(userRole)
         print(username)
@@ -65,7 +67,7 @@ def registerPage():
                 print("失败！商家已注册！")
                 msg = "fail1"
             else:
-                sql2 = "insert into RESTAURANT (username, password) values ('{}', '{}') ".format(username, password)
+                sql2 = "insert into RESTAURANT (username, password, address, phone) values ('{}', '{}', '{}', '{}') ".format(username, password, addr, phone)
 
                 try:
                     cursor.execute(sql2)
@@ -96,7 +98,7 @@ def registerPage():
                 print("用户已注册！请直接登录。")
                 msg = "fail2"
             else:
-                sql2 = "insert into CUSTOMER (username, password) values ('{}', '{}') ".format(username, password)
+                sql2 = "insert into CUSTOMER (username, password, address, phone) values ('{}', '{}', '{}', '{}') ".format(username, password, addr, phone)
 
                 try:
                     cursor.execute(sql2)

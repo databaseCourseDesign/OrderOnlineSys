@@ -30,6 +30,27 @@
 	<!-- Theme style  -->
 	<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 	<script src="static/js/modernizr-2.6.2.min.js"></script>
+<script>
+	window.onload = function() {
+		var phone = document.getElementById("phone");
+		phone.onkeyup = function() {
+			checkPhone();
+		}
+	}
+
+	function checkPhone() {
+		console.log("验证电话")
+		var phone = document.getElementById('phone').value;
+		if(!(/^1[3456789]\d{9}$/.test(phone))) {
+			document.getElementById('checkPhone').innerHTML = "电话号码不规范";
+			alert("手机号码格式有误，请重填");  
+			return false; 
+		} 
+	}
+
+</script>
+
+
 </head>
 <body>
 	<div class="gtco-loader"></div>
@@ -88,6 +109,18 @@
 													<div class="col-md-12">
 														<label for="activities">密码</label>
 														<input type="password" name="password" placeholder="不可为空" class="form-control">
+													</div>
+												</div>
+												<div class="row form-group">
+													<div class="col-md-12">
+														<label for="activities">电话</label><span id="checkPhone"></span>
+														<input type="text" name="phone" placeholder="不可为空" class="form-control form-input" id="contact-phone-2" data-constraints="@Numeric">
+													</div>
+												</div>
+												<div class="row form-group">
+													<div class="col-md-12">
+														<label for="activities">地址</label>
+														<input type="text" name="addr" placeholder="不可为空" class="form-control">
 													</div>
 												</div>
 
